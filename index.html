@@ -2369,7 +2369,7 @@
                     const isAltitude = document.getElementById('pft-altitude-test').checked;
                     return isRun
                         ? { title: `3-Mile Run Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`, html: generateRunTableHTML(gender, ageGroup, isAltitude) }
-                        : { title: `5,000m Row Scoring (${gender}, ${ageGroup})`, html: generateRowTableHTML(gender, ageGroup) };
+                        : { title: `5,000m Row Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`, html: generateRowTableHTML(gender, ageGroup, isAltitude) };
                 },
                 mtc: () => {
                     const isAltitude = document.getElementById('altitude-test').checked;
@@ -2450,8 +2450,9 @@
         }
 
         // Generate Row Table HTML for Popover
-        function generateRowTableHTML(gender, ageGroup) {
-            return generateTimeTableHTML(rowSeaLevelScores[gender]?.[ageGroup]);
+        function generateRowTableHTML(gender, ageGroup, isAltitude) {
+            const scores = isAltitude ? rowAltitudeScores[gender]?.[ageGroup] : rowSeaLevelScores[gender]?.[ageGroup];
+            return generateTimeTableHTML(scores);
         }
 
         // Generate MTC Table HTML for Popover
@@ -2717,9 +2718,9 @@
                 }
 
                 // Calculate scores
-                let mtcScore = calculateMTCScore(gender, ageGroup, mtcMinutes, mtcSeconds);
-                let alScore = calculateALScore(gender, ageGroup, ammoLifts);
-                let manufScore = calculateMANUFScore(gender, ageGroup, manufMinutes, manufSeconds);
+                let mtcScore = calculateMTCScore(gender, mtcMinutes, mtcSeconds);
+                let alScore = calculateALScore(gender, ammoLifts);
+                let manufScore = calculateMANUFScore(gender, manufMinutes, manufSeconds);
 
                 // Total score
                 const totalScore = mtcScore + alScore + manufScore;
@@ -2755,10 +2756,10 @@
             }
         }
 
-        // CFT Scoring Functions
-        function calculateMTCScore(gender, ageGroup, minutes, seconds) {
+        // CFT Scoring Functions (not age-dependent)
+        function calculateMTCScore(gender, minutes, seconds) {
             const totalSeconds = minutes * 60 + seconds;
-            
+
             if (gender === 'male') {
                 if (totalSeconds <= 160) return 100;  // 2:40
                 if (totalSeconds <= 180) return 85;   // 3:00
@@ -2774,7 +2775,7 @@
             }
         }
 
-        function calculateALScore(gender, ageGroup, reps) {
+        function calculateALScore(gender, reps) {
             if (gender === 'male') {
                 if (reps >= 120) return 100;
                 if (reps >= 100) return 85;
@@ -2790,7 +2791,7 @@
             }
         }
 
-        function calculateMANUFScore(gender, ageGroup, minutes, seconds) {
+        function calculateMANUFScore(gender, minutes, seconds) {
             const totalSeconds = minutes * 60 + seconds;
             
             if (gender === 'male') {
@@ -3426,9 +3427,9 @@
             const manufMin = getSimValue('sim-manuf-min');
             const manufSec = getSimValue('sim-manuf-sec');
 
-            const mtcScore = calculateMTCScore(data.gender, data.ageGroup, mtcMin, mtcSec);
-            const ammoScore = calculateALScore(data.gender, data.ageGroup, ammoReps);
-            const manufScore = calculateMANUFScore(data.gender, data.ageGroup, manufMin, manufSec);
+            const mtcScore = calculateMTCScore(data.gender, mtcMin, mtcSec);
+            const ammoScore = calculateALScore(data.gender, ammoReps);
+            const manufScore = calculateMANUFScore(data.gender, manufMin, manufSec);
 
             const totalScore = mtcScore + ammoScore + manufScore;
 
@@ -4146,9 +4147,9 @@
             const manufMin = parseInt(document.getElementById('sim-manuf-min').value) || 0;
             const manufSec = parseInt(document.getElementById('sim-manuf-sec').value) || 0;
 
-            const mtcScore = calculateMTCScore(data.gender, data.ageGroup, mtcMin, mtcSec);
-            const ammoScore = calculateALScore(data.gender, data.ageGroup, ammoReps);
-            const manufScore = calculateMANUFScore(data.gender, data.ageGroup, manufMin, manufSec);
+            const mtcScore = calculateMTCScore(data.gender, mtcMin, mtcSec);
+            const ammoScore = calculateALScore(data.gender, ammoReps);
+            const manufScore = calculateMANUFScore(data.gender, manufMin, manufSec);
 
             const totalScore = mtcScore + ammoScore + manufScore;
             const classification = getClassification(totalScore);
