@@ -23,6 +23,13 @@
             --card-shadow: rgba(0,0,0,0.1);
             --marine-red: #8B0000;
             --marine-gold: #FFD700;
+            /* Due date gradient colors */
+            --due-date-gradient-start: #8B0000;
+            --due-date-gradient-end: #6b0000;
+            --urgent-gradient-start: #dc3545;
+            --urgent-gradient-end: #a71d2a;
+            --soon-gradient-start: #fd7e14;
+            --soon-gradient-end: #d35400;
         }
 
         [data-theme="dark"] {
@@ -36,6 +43,13 @@
             --card-shadow: rgba(0,0,0,0.3);
             --marine-red: #aa2222;
             --marine-gold: #FFD700;
+            /* Due date gradient colors - dark mode */
+            --due-date-gradient-start: #4a0000;
+            --due-date-gradient-end: #2d0000;
+            --urgent-gradient-start: #a71d2a;
+            --urgent-gradient-end: #6b1520;
+            --soon-gradient-start: #d35400;
+            --soon-gradient-end: #8a3600;
         }
 
         * {
@@ -1651,7 +1665,7 @@
             justify-content: center;
             gap: 10px;
             padding: 12px 15px;
-            background: linear-gradient(135deg, var(--marine-red) 0%, #6b0000 100%);
+            background: linear-gradient(135deg, var(--due-date-gradient-start) 0%, var(--due-date-gradient-end) 100%);
             border-radius: 8px;
             margin: 10px 0 15px 0;
             color: white;
@@ -1673,29 +1687,17 @@
         }
 
         .test-due-date.urgent {
-            background: linear-gradient(135deg, #dc3545 0%, #a71d2a 100%);
+            background: linear-gradient(135deg, var(--urgent-gradient-start) 0%, var(--urgent-gradient-end) 100%);
             animation: pulse-urgent 2s infinite;
         }
 
         .test-due-date.soon {
-            background: linear-gradient(135deg, #fd7e14 0%, #d35400 100%);
+            background: linear-gradient(135deg, var(--soon-gradient-start) 0%, var(--soon-gradient-end) 100%);
         }
 
         @keyframes pulse-urgent {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.85; }
-        }
-
-        [data-theme="dark"] .test-due-date {
-            background: linear-gradient(135deg, #4a0000 0%, #2d0000 100%);
-        }
-
-        [data-theme="dark"] .test-due-date.urgent {
-            background: linear-gradient(135deg, #a71d2a 0%, #6b1520 100%);
-        }
-
-        [data-theme="dark"] .test-due-date.soon {
-            background: linear-gradient(135deg, #d35400 0%, #8a3600 100%);
         }
 
         /* Due Date Compact Bar */
@@ -2556,6 +2558,10 @@
             return html + '</tbody></table>';
         }
 
+        // Due date urgency thresholds (days)
+        const URGENT_DAYS_THRESHOLD = 30;
+        const SOON_DAYS_THRESHOLD = 60;
+
         // Render Test Due Date (shows only selected test's due date)
         function renderTestDueDate() {
             const container = document.getElementById('test-due-date');
@@ -2570,15 +2576,29 @@
 
             // Determine priority class
             let priorityClass = '';
-            if (daysRemaining <= 30) priorityClass = 'urgent';
-            else if (daysRemaining <= 60) priorityClass = 'soon';
+            if (daysRemaining <= URGENT_DAYS_THRESHOLD) {
+                priorityClass = 'urgent';
+            } else if (daysRemaining <= SOON_DAYS_THRESHOLD) {
+                priorityClass = 'soon';
+            }
 
+            // Clear and rebuild using DOM methods (safer than innerHTML)
             container.className = 'test-due-date ' + priorityClass;
-            container.innerHTML = `
-                <span class="due-label">📅 ${testType} Due:</span>
-                <span class="due-days">${daysRemaining} days</span>
-                <span class="due-date-text">(${dueDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })})</span>
-            `;
+            container.textContent = '';
+
+            const dueLabel = document.createElement('span');
+            dueLabel.className = 'due-label';
+            dueLabel.textContent = `📅 ${testType} Due:`;
+
+            const dueDays = document.createElement('span');
+            dueDays.className = 'due-days';
+            dueDays.textContent = `${daysRemaining} days`;
+
+            const dueDateText = document.createElement('span');
+            dueDateText.className = 'due-date-text';
+            dueDateText.textContent = `(${dueDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })})`;
+
+            container.append(dueLabel, dueDays, dueDateText);
         }
 
         // Render Due Date Bar (compact version)
@@ -2596,23 +2616,36 @@
             const cftDays = Math.ceil((cftDate - now) / (1000 * 60 * 60 * 24));
 
             const getPriority = (days) => {
-                if (days <= 30) return 'urgent';
-                if (days <= 60) return 'soon';
+                if (days <= URGENT_DAYS_THRESHOLD) return 'urgent';
+                if (days <= SOON_DAYS_THRESHOLD) return 'soon';
                 return '';
             };
 
-            bar.innerHTML = `
-                <div class="due-item ${getPriority(pftDays)}">
-                    <span>📅 PFT:</span>
-                    <span class="days">${pftDays} days</span>
-                    <span>(${pftDate.toLocaleDateString()})</span>
-                </div>
-                <div class="due-item ${getPriority(cftDays)}">
-                    <span>📅 CFT:</span>
-                    <span class="days">${cftDays} days</span>
-                    <span>(${cftDate.toLocaleDateString()})</span>
-                </div>
-            `;
+            // Clear and rebuild using DOM methods
+            bar.textContent = '';
+
+            const createDueItem = (label, days, date, priorityClass) => {
+                const item = document.createElement('div');
+                item.className = 'due-item ' + priorityClass;
+
+                const labelSpan = document.createElement('span');
+                labelSpan.textContent = `📅 ${label}:`;
+
+                const daysSpan = document.createElement('span');
+                daysSpan.className = 'days';
+                daysSpan.textContent = `${days} days`;
+
+                const dateSpan = document.createElement('span');
+                dateSpan.textContent = `(${date.toLocaleDateString()})`;
+
+                item.append(labelSpan, daysSpan, dateSpan);
+                return item;
+            };
+
+            bar.append(
+                createDueItem('PFT', pftDays, pftDate, getPriority(pftDays)),
+                createDueItem('CFT', cftDays, cftDate, getPriority(cftDays))
+            );
         }
 
         // Display error inline in results section
