@@ -691,6 +691,14 @@
             width: 50px;
         }
 
+        /* No Age Comparison Message */
+        .no-age-comparison {
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+        }
+
         /* Validation Styles */
         .validation-error {
             color: #dc3545;
@@ -2371,18 +2379,18 @@
                         ? { title: `3-Mile Run Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`, html: generateRunTableHTML(gender, ageGroup, isAltitude) }
                         : { title: `5,000m Row Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`, html: generateRowTableHTML(gender, ageGroup, isAltitude) };
                 },
-                mtc: () => {
-                    const isAltitude = document.getElementById('altitude-test').checked;
-                    return { title: `MTC Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`, html: generateMTCTableHTML(gender, ageGroup, isAltitude) };
-                },
-                ammo: () => ({
-                    title: `Ammo Lift Scoring (${gender}, ${ageGroup})`,
-                    html: generateAmmoTableHTML(gender, ageGroup)
+                mtc: () => ({
+                    title: `MTC Scoring (${gender})`,
+                    html: generateMTCTableHTML(gender)
                 }),
-                manuf: () => {
-                    const isAltitude = document.getElementById('altitude-test').checked;
-                    return { title: `MANUF Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`, html: generateMANUFTableHTML(gender, ageGroup, isAltitude) };
-                }
+                ammo: () => ({
+                    title: `Ammo Lift Scoring (${gender})`,
+                    html: generateAmmoTableHTML(gender)
+                }),
+                manuf: () => ({
+                    title: `MANUF Scoring (${gender})`,
+                    html: generateMANUFTableHTML(gender)
+                })
             };
 
             const config = tableConfig[eventType];
@@ -2455,21 +2463,37 @@
             return generateTimeTableHTML(scores);
         }
 
-        // Generate MTC Table HTML for Popover
-        function generateMTCTableHTML(gender, ageGroup, isAltitude) {
-            const scores = isAltitude ? mtcAltitudeScores[gender]?.[ageGroup] : mtcSeaLevelScores[gender]?.[ageGroup];
-            return generateTimeTableHTML(scores);
+        // Generate MTC Table HTML for Popover (CFT uses tier-based scoring, not age-dependent)
+        function generateMTCTableHTML(gender) {
+            const thresholds = gender === 'male'
+                ? [['2:40 or less', 100], ['2:41 - 3:00', 85], ['3:01 - 3:20', 70], ['3:21 - 3:45', 40], ['Over 3:45', 0]]
+                : [['3:19 or less', 100], ['3:20 - 3:40', 85], ['3:41 - 4:00', 70], ['4:01 - 4:36', 40], ['Over 4:36', 0]];
+            return generateCFTThresholdTable('Time', thresholds);
         }
 
-        // Generate Ammo Lift Table HTML for Popover
-        function generateAmmoTableHTML(gender, ageGroup) {
-            return generateRepsTableHTML(ammoLiftScores[gender]?.[ageGroup]);
+        // Generate Ammo Lift Table HTML for Popover (CFT uses tier-based scoring, not age-dependent)
+        function generateAmmoTableHTML(gender) {
+            const thresholds = gender === 'male'
+                ? [['120+', 100], ['100 - 119', 85], ['80 - 99', 70], ['62 - 79', 40], ['Under 62', 0]]
+                : [['66+', 100], ['50 - 65', 85], ['40 - 49', 70], ['30 - 39', 40], ['Under 30', 0]];
+            return generateCFTThresholdTable('Reps', thresholds);
         }
 
-        // Generate MANUF Table HTML for Popover
-        function generateMANUFTableHTML(gender, ageGroup, isAltitude) {
-            const scores = isAltitude ? manufAltitudeScores[gender]?.[ageGroup] : manufSeaLevelScores[gender]?.[ageGroup];
-            return generateTimeTableHTML(scores);
+        // Generate MANUF Table HTML for Popover (CFT uses tier-based scoring, not age-dependent)
+        function generateMANUFTableHTML(gender) {
+            const thresholds = gender === 'male'
+                ? [['2:07 or less', 100], ['2:08 - 2:30', 85], ['2:31 - 2:47', 70], ['2:48 - 3:17', 40], ['Over 3:17', 0]]
+                : [['2:55 or less', 100], ['2:56 - 3:15', 85], ['3:16 - 3:25', 70], ['3:26 - 4:53', 40], ['Over 4:53', 0]];
+            return generateCFTThresholdTable('Time', thresholds);
+        }
+
+        // Helper: Generate CFT threshold table HTML
+        function generateCFTThresholdTable(label, thresholds) {
+            let html = `<table class="scoring-table-popover"><thead><tr><th>${label}</th><th>Points</th></tr></thead><tbody>`;
+            for (const [range, points] of thresholds) {
+                html += `<tr><td>${range}</td><td>${points}</td></tr>`;
+            }
+            return html + '</tbody></table>';
         }
 
         // Render Due Date Bar (compact version)
@@ -3100,7 +3124,7 @@
             document.getElementById('desktop-event-breakdown').innerHTML = `<div class="results-card"><h3>📊 CFT Event Scores</h3>${eventBreakdownHTML}</div>`;
             document.getElementById('desktop-minimums').innerHTML = minimumsHTML;
             document.getElementById('desktop-simulator-inline').innerHTML = simulatorHTML;
-            document.getElementById('desktop-age-comparison').innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 20px;">Age comparison not available for CFT.</p>';
+            document.getElementById('desktop-age-comparison').innerHTML = '<p class="no-age-comparison">CFT scoring is based on gender only and does not vary by age group, so age comparison is not applicable.</p>';
             document.getElementById('desktop-training-recs').innerHTML = trainingHTML;
 
             // Populate Mobile Accordions
@@ -3108,7 +3132,7 @@
             document.getElementById('mobile-minimums').innerHTML = minimumsHTML;
             document.getElementById('mobile-simulator').innerHTML = simulatorHTML;
             document.getElementById('mobile-training-recs').innerHTML = trainingHTML;
-            document.getElementById('mobile-age-comparison').innerHTML = '<p style="color: var(--text-secondary);">Age comparison not available for CFT.</p>';
+            document.getElementById('mobile-age-comparison').innerHTML = '<p class="no-age-comparison">CFT scoring is based on gender only and does not vary by age group.</p>';
 
             // Update Due Date Bar
             renderDueDateBar();
