@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pft-cft-calculator-v8';
+const CACHE_NAME = 'pft-cft-calculator-v9';
 const urlsToCache = [
   '/',
   '/index.html',

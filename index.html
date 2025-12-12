@@ -1316,6 +1316,420 @@
                 width: auto;
             }
         }
+
+        /* ================================
+           RESPONSIVE UI REDESIGN
+           ================================ */
+
+        /* Scoring Table Button */
+        .table-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+
+        .table-btn:hover {
+            background: var(--marine-red);
+            color: var(--marine-gold);
+            border-color: var(--marine-red);
+        }
+
+        [data-theme="dark"] .table-btn:hover {
+            background: var(--marine-gold);
+            color: var(--marine-red);
+        }
+
+        .event-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .event-section-header h3 {
+            margin: 0;
+        }
+
+        /* Scoring Table Popover */
+        .table-popover {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-primary);
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 1002;
+            max-width: 400px;
+            width: 90%;
+            max-height: 70vh;
+            overflow: hidden;
+        }
+
+        .table-popover.active {
+            display: block;
+        }
+
+        .table-popover-header {
+            background: var(--marine-red);
+            color: var(--marine-gold);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-popover-header h3 {
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .table-popover-close {
+            background: none;
+            border: none;
+            color: var(--marine-gold);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .table-popover-body {
+            padding: 15px;
+            max-height: calc(70vh - 60px);
+            overflow-y: auto;
+        }
+
+        .table-popover-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1001;
+        }
+
+        .table-popover-overlay.active {
+            display: block;
+        }
+
+        /* Results Tabs (Desktop) */
+        .results-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .results-tab {
+            flex: 1;
+            padding: 12px 15px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .results-tab:hover {
+            color: var(--marine-red);
+        }
+
+        [data-theme="dark"] .results-tab:hover {
+            color: var(--marine-gold);
+        }
+
+        .results-tab.active {
+            color: var(--marine-red);
+            border-bottom-color: var(--marine-red);
+        }
+
+        [data-theme="dark"] .results-tab.active {
+            color: var(--marine-gold);
+            border-bottom-color: var(--marine-gold);
+        }
+
+        .results-tab-content {
+            display: none;
+        }
+
+        .results-tab-content.active {
+            display: block;
+        }
+
+        /* Accordion (Mobile) */
+        .accordion-section {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-primary);
+            transition: background 0.2s;
+        }
+
+        .accordion-header:hover {
+            background: var(--bg-primary);
+        }
+
+        .accordion-header .accordion-icon {
+            font-size: 12px;
+            transition: transform 0.3s;
+        }
+
+        .accordion-section.open .accordion-header .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            display: none;
+            padding: 15px;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .accordion-section.open .accordion-body {
+            display: block;
+        }
+
+        /* Score Summary Card - Always Visible */
+        .score-summary {
+            background: var(--marine-red);
+            color: var(--marine-gold);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .score-summary .total {
+            font-size: 3em;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .score-summary .classification-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .score-summary .classification-badge.cg-excellence {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .score-summary .classification-badge.body-comp-incentive {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .score-summary .classification-badge.first-class {
+            background: #28a745;
+            color: white;
+        }
+
+        .score-summary .classification-badge.second-class {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .score-summary .classification-badge.third-class {
+            background: #fd7e14;
+            color: white;
+        }
+
+        .score-summary .classification-badge.fail {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Quick Actions Bar */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 10px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            color: var(--text-primary);
+        }
+
+        .quick-action-btn:hover {
+            border-color: var(--marine-red);
+            color: var(--marine-red);
+        }
+
+        [data-theme="dark"] .quick-action-btn:hover {
+            border-color: var(--marine-gold);
+            color: var(--marine-gold);
+        }
+
+        .quick-action-btn .icon {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .quick-action-btn .label {
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+
+        /* Due Date Compact Bar */
+        .due-date-bar {
+            display: flex;
+            gap: 15px;
+            padding: 12px 15px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .due-date-bar .due-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+
+        .due-date-bar .due-item .days {
+            font-weight: bold;
+            color: var(--marine-red);
+        }
+
+        [data-theme="dark"] .due-date-bar .due-item .days {
+            color: var(--marine-gold);
+        }
+
+        .due-date-bar .due-item.urgent .days {
+            color: #dc3545;
+        }
+
+        .due-date-bar .due-item.soon .days {
+            color: #ffc107;
+        }
+
+        /* Desktop-specific: Show tabs, hide accordions */
+        @media (min-width: 769px) {
+            .accordion-section {
+                display: none;
+            }
+
+            .mobile-only {
+                display: none;
+            }
+        }
+
+        /* Mobile-specific: Show accordions, hide tabs */
+        @media (max-width: 768px) {
+            .results-tabs {
+                display: none;
+            }
+
+            .results-tab-content {
+                display: none !important;
+            }
+
+            .accordion-section {
+                display: block;
+            }
+
+            .desktop-only {
+                display: none;
+            }
+
+            .score-summary .total {
+                font-size: 2.5em;
+            }
+
+            .quick-actions {
+                justify-content: center;
+            }
+
+            .quick-action-btn {
+                min-width: 70px;
+                padding: 8px;
+            }
+
+            .quick-action-btn .icon {
+                font-size: 1.2em;
+            }
+
+            .due-date-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Mini Scoring Table in Popover */
+        .scoring-table-popover {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        .scoring-table-popover th {
+            background: var(--marine-red);
+            color: var(--marine-gold);
+            padding: 10px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+
+        .scoring-table-popover td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .scoring-table-popover tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        .scoring-table-popover .highlight {
+            background: rgba(139, 0, 0, 0.1);
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .scoring-table-popover .highlight {
+            background: rgba(255, 215, 0, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -1372,7 +1786,10 @@
                     </div>
 
                     <div class="event-section">
-                        <h3>Upper Body Strength</h3>
+                        <div class="event-section-header">
+                            <h3>Upper Body Strength</h3>
+                            <button type="button" class="table-btn" onclick="showScoringTable('pullups')">📊 Table</button>
+                        </div>
                         <div class="radio-group">
                             <div class="radio-option">
                                 <input type="radio" name="upper-body" value="pullups" id="pullups" checked onchange="updateUpperBodyHint()">
@@ -1392,7 +1809,10 @@
                     </div>
 
                     <div class="event-section">
-                        <h3>Core Strength - Plank</h3>
+                        <div class="event-section-header">
+                            <h3>Core Strength - Plank</h3>
+                            <button type="button" class="table-btn" onclick="showScoringTable('plank')">📊 Table</button>
+                        </div>
                         <div class="form-group">
                             <label>Time (MM:SS):</label>
                             <div class="time-input">
@@ -1406,7 +1826,10 @@
                     </div>
 
                     <div class="event-section">
-                        <h3>Aerobic Capacity</h3>
+                        <div class="event-section-header">
+                            <h3>Aerobic Capacity</h3>
+                            <button type="button" class="table-btn" onclick="showScoringTable('run')">📊 Table</button>
+                        </div>
                         <div class="radio-group">
                             <div class="radio-option">
                                 <input type="radio" name="cardio-type" value="run" id="run" checked onchange="updateCardioHint()">
@@ -1439,7 +1862,10 @@
                     </div>
 
                     <div class="event-section">
-                        <h3>Movement to Contact (MTC)</h3>
+                        <div class="event-section-header">
+                            <h3>Movement to Contact (MTC)</h3>
+                            <button type="button" class="table-btn" onclick="showScoringTable('mtc')">📊 Table</button>
+                        </div>
                         <div class="form-group">
                             <label>Time (MM:SS):</label>
                             <div class="time-input">
@@ -1453,7 +1879,10 @@
                     </div>
 
                     <div class="event-section">
-                        <h3>Ammunition Lift (AL)</h3>
+                        <div class="event-section-header">
+                            <h3>Ammunition Lift (AL)</h3>
+                            <button type="button" class="table-btn" onclick="showScoringTable('ammo')">📊 Table</button>
+                        </div>
                         <div class="form-group">
                             <label for="ammo-lifts">Repetitions:</label>
                             <input type="number" id="ammo-lifts" min="0" max="150" placeholder="Enter reps" oninput="validateAmmoLift(this)">
@@ -1463,7 +1892,10 @@
                     </div>
 
                     <div class="event-section">
-                        <h3>Maneuver Under Fire (MANUF)</h3>
+                        <div class="event-section-header">
+                            <h3>Maneuver Under Fire (MANUF)</h3>
+                            <button type="button" class="table-btn" onclick="showScoringTable('manuf')">📊 Table</button>
+                        </div>
                         <div class="form-group">
                             <label>Time (MM:SS):</label>
                             <div class="time-input">
@@ -1481,7 +1913,8 @@
             </div>
 
             <div class="results-section">
-                <div id="results-display">
+                <!-- Initial State (before calculation) -->
+                <div id="results-initial">
                     <div class="results-card">
                         <h3>📊 PFT Results</h3>
                         <p>Enter your performance data and click "Calculate Score" to see your results.</p>
@@ -1526,12 +1959,108 @@
                     </div>
                 </div>
 
-                <div id="history-container"></div>
+                <!-- Calculated Results (shown after calculation) -->
+                <div id="results-calculated" class="hidden">
+                    <!-- Score Summary - Always Visible -->
+                    <div class="score-summary" id="score-summary">
+                        <div class="total" id="total-score-value">---</div>
+                        <div class="classification-badge" id="classification-badge">---</div>
+                        <div class="score-gauge-container" id="score-gauges"></div>
+                    </div>
 
-                <!-- Due Date Reminder Section -->
-                <div class="due-date-section">
-                    <h4>📅 PFT/CFT Due Dates</h4>
-                    <div id="due-dates-display"></div>
+                    <!-- Quick Actions Bar -->
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" onclick="window.print()">
+                            <span class="icon">🖨️</span>
+                            <span class="label">Print</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="saveToHistory()">
+                            <span class="icon">💾</span>
+                            <span class="label">Save</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="openSimulator()">
+                            <span class="icon">🎯</span>
+                            <span class="label">Simulate</span>
+                        </button>
+                    </div>
+
+                    <!-- Desktop: Tabbed Interface -->
+                    <div class="desktop-only">
+                        <div class="results-tabs">
+                            <button class="results-tab active" onclick="switchResultsTab('results')">Results</button>
+                            <button class="results-tab" onclick="switchResultsTab('analyze')">Analyze</button>
+                            <button class="results-tab" onclick="switchResultsTab('history')">History</button>
+                        </div>
+
+                        <div id="tab-results" class="results-tab-content active">
+                            <div id="desktop-event-breakdown"></div>
+                            <div id="desktop-minimums"></div>
+                        </div>
+
+                        <div id="tab-analyze" class="results-tab-content">
+                            <div id="desktop-simulator-inline"></div>
+                            <div id="desktop-age-comparison"></div>
+                            <div id="desktop-training-recs"></div>
+                        </div>
+
+                        <div id="tab-history" class="results-tab-content">
+                            <div id="desktop-history"></div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile: Accordion Interface -->
+                    <div class="mobile-only">
+                        <div class="accordion-section open">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>📋 Event Breakdown</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-body" id="mobile-event-breakdown"></div>
+                        </div>
+
+                        <div class="accordion-section">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>⚠️ Minimum Requirements</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-body" id="mobile-minimums"></div>
+                        </div>
+
+                        <div class="accordion-section">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>🎯 What-If Simulator</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-body" id="mobile-simulator"></div>
+                        </div>
+
+                        <div class="accordion-section">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>💪 Training Tips</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-body" id="mobile-training-recs"></div>
+                        </div>
+
+                        <div class="accordion-section">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>📊 Age Comparison</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-body" id="mobile-age-comparison"></div>
+                        </div>
+
+                        <div class="accordion-section">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>📜 History</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-body" id="mobile-history"></div>
+                        </div>
+                    </div>
+
+                    <!-- Due Date Bar - Always Visible -->
+                    <div class="due-date-bar" id="due-date-bar"></div>
                 </div>
             </div>
         </div>
@@ -1621,6 +2150,16 @@
                 <div id="goal-results"></div>
             </div>
         </div>
+    </div>
+
+    <!-- Scoring Table Popover -->
+    <div class="table-popover-overlay" id="table-popover-overlay" onclick="closeScoringTable()"></div>
+    <div class="table-popover" id="table-popover">
+        <div class="table-popover-header">
+            <h3 id="table-popover-title">Scoring Table</h3>
+            <button class="table-popover-close" onclick="closeScoringTable()">&times;</button>
+        </div>
+        <div class="table-popover-body" id="table-popover-body"></div>
     </div>
 
     <!-- PWA Install Prompt -->
@@ -1735,19 +2274,267 @@
         // Switch between PFT and CFT
         function switchTest(testType) {
             currentTest = testType;
-            
+
             // Update active tab
             document.querySelectorAll('.test-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             event.target.classList.add('active');
-            
+
             // Show/hide event sections
             document.getElementById('pft-events').classList.toggle('hidden', testType !== 'pft');
             document.getElementById('cft-events').classList.toggle('hidden', testType !== 'cft');
-            
+
             // Update results display
             updateResultsDisplay();
+        }
+
+        // ================================
+        // NEW UI FUNCTIONS
+        // ================================
+
+        // Switch Results Tab (Desktop)
+        function switchResultsTab(tabName) {
+            // Update active tab button
+            document.querySelectorAll('.results-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show/hide tab content
+            document.querySelectorAll('.results-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+
+        // Toggle Accordion (Mobile)
+        function toggleAccordion(header) {
+            const section = header.parentElement;
+            section.classList.toggle('open');
+        }
+
+        // Show Scoring Table Popover
+        function showScoringTable(eventType) {
+            const gender = document.getElementById('gender').value;
+            const ageGroup = document.getElementById('age').value;
+            const popover = document.getElementById('table-popover');
+            const overlay = document.getElementById('table-popover-overlay');
+            const title = document.getElementById('table-popover-title');
+            const body = document.getElementById('table-popover-body');
+
+            let tableHTML = '';
+            let titleText = '';
+
+            // Determine which table to show based on event type
+            if (eventType === 'pullups') {
+                const isPullups = document.getElementById('pullups').checked;
+                if (isPullups) {
+                    titleText = `Pull-ups Scoring (${gender}, ${ageGroup})`;
+                    tableHTML = generatePullupsTableHTML(gender, ageGroup);
+                } else {
+                    titleText = `Push-ups Scoring (${gender}, ${ageGroup})`;
+                    tableHTML = generatePushupsTableHTML(gender, ageGroup);
+                }
+            } else if (eventType === 'plank') {
+                titleText = 'Plank Scoring (All)';
+                tableHTML = generatePlankPopoverTableHTML();
+            } else if (eventType === 'run') {
+                const isRun = document.getElementById('run').checked;
+                const isAltitude = document.getElementById('pft-altitude-test').checked;
+                if (isRun) {
+                    titleText = `3-Mile Run Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`;
+                    tableHTML = generateRunTableHTML(gender, ageGroup, isAltitude);
+                } else {
+                    titleText = `5,000m Row Scoring (${gender}, ${ageGroup})`;
+                    tableHTML = generateRowTableHTML(gender, ageGroup);
+                }
+            } else if (eventType === 'mtc') {
+                const isAltitude = document.getElementById('altitude-test').checked;
+                titleText = `MTC Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`;
+                tableHTML = generateMTCTableHTML(gender, ageGroup, isAltitude);
+            } else if (eventType === 'ammo') {
+                titleText = `Ammo Lift Scoring (${gender}, ${ageGroup})`;
+                tableHTML = generateAmmoTableHTML(gender, ageGroup);
+            } else if (eventType === 'manuf') {
+                const isAltitude = document.getElementById('altitude-test').checked;
+                titleText = `MANUF Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`;
+                tableHTML = generateMANUFTableHTML(gender, ageGroup, isAltitude);
+            }
+
+            title.textContent = titleText;
+            body.innerHTML = tableHTML;
+            popover.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        // Close Scoring Table Popover
+        function closeScoringTable() {
+            document.getElementById('table-popover').classList.remove('active');
+            document.getElementById('table-popover-overlay').classList.remove('active');
+        }
+
+        // Generate Pull-ups Table HTML for Popover
+        function generatePullupsTableHTML(gender, ageGroup) {
+            const scores = pullupScores[gender]?.[ageGroup];
+            if (!scores) return '<p>No data available for this selection.</p>';
+
+            let html = '<table class="scoring-table-popover"><thead><tr><th>Reps</th><th>Points</th></tr></thead><tbody>';
+            const sortedReps = Object.keys(scores).map(Number).sort((a, b) => b - a);
+            for (const reps of sortedReps) {
+                html += `<tr><td>${reps}</td><td>${scores[reps]}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // Generate Push-ups Table HTML for Popover
+        function generatePushupsTableHTML(gender, ageGroup) {
+            const scores = pushupScores[gender]?.[ageGroup];
+            if (!scores) return '<p>No data available for this selection.</p>';
+
+            let html = '<table class="scoring-table-popover"><thead><tr><th>Reps</th><th>Points</th></tr></thead><tbody>';
+            const sortedReps = Object.keys(scores).map(Number).sort((a, b) => b - a);
+            for (const reps of sortedReps) {
+                html += `<tr><td>${reps}</td><td>${scores[reps]}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // Generate Plank Table HTML for Popover
+        function generatePlankPopoverTableHTML() {
+            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
+            const sortedTimes = Object.keys(plankScores).sort((a, b) => {
+                const [aMin, aSec] = a.split(':').map(Number);
+                const [bMin, bSec] = b.split(':').map(Number);
+                return (bMin * 60 + bSec) - (aMin * 60 + aSec);
+            });
+            for (const time of sortedTimes) {
+                html += `<tr><td>${time}</td><td>${plankScores[time]}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // Generate Run Table HTML for Popover
+        function generateRunTableHTML(gender, ageGroup, isAltitude) {
+            const scores = isAltitude ? runAltitudeScores[gender]?.[ageGroup] : runSeaLevelScores[gender]?.[ageGroup];
+            if (!scores) return '<p>No data available for this selection.</p>';
+
+            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
+            const sortedTimes = Object.keys(scores).sort((a, b) => {
+                const [aMin, aSec] = a.split(':').map(Number);
+                const [bMin, bSec] = b.split(':').map(Number);
+                return (aMin * 60 + aSec) - (bMin * 60 + bSec);
+            });
+            for (const time of sortedTimes) {
+                html += `<tr><td>${time}</td><td>${scores[time]}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // Generate Row Table HTML for Popover
+        function generateRowTableHTML(gender, ageGroup) {
+            const scores = rowSeaLevelScores[gender]?.[ageGroup];
+            if (!scores) return '<p>No data available for this selection.</p>';
+
+            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
+            const sortedTimes = Object.keys(scores).sort((a, b) => {
+                const [aMin, aSec] = a.split(':').map(Number);
+                const [bMin, bSec] = b.split(':').map(Number);
+                return (aMin * 60 + aSec) - (bMin * 60 + bSec);
+            });
+            for (const time of sortedTimes) {
+                html += `<tr><td>${time}</td><td>${scores[time]}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // Generate MTC Table HTML for Popover
+        function generateMTCTableHTML(gender, ageGroup, isAltitude) {
+            const scores = isAltitude ? mtcAltitudeScores[gender]?.[ageGroup] : mtcSeaLevelScores[gender]?.[ageGroup];
+            if (!scores) return '<p>No data available for this selection.</p>';
+
+            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
+            const sortedTimes = Object.keys(scores).sort((a, b) => {
+                const [aMin, aSec] = a.split(':').map(Number);
+                const [bMin, bSec] = b.split(':').map(Number);
+                return (aMin * 60 + aSec) - (bMin * 60 + bSec);
+            });
+            for (const time of sortedTimes) {
+                html += `<tr><td>${time}</td><td>${scores[time]}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // Generate Ammo Lift Table HTML for Popover
+        function generateAmmoTableHTML(gender, ageGroup) {
+            const scores = ammoLiftScores[gender]?.[ageGroup];
+            if (!scores) return '<p>No data available for this selection.</p>';
+
+            let html = '<table class="scoring-table-popover"><thead><tr><th>Reps</th><th>Points</th></tr></thead><tbody>';
+            const sortedReps = Object.keys(scores).map(Number).sort((a, b) => b - a);
+            for (const reps of sortedReps) {
+                html += `<tr><td>${reps}</td><td>${scores[reps]}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // Generate MANUF Table HTML for Popover
+        function generateMANUFTableHTML(gender, ageGroup, isAltitude) {
+            const scores = isAltitude ? manufAltitudeScores[gender]?.[ageGroup] : manufSeaLevelScores[gender]?.[ageGroup];
+            if (!scores) return '<p>No data available for this selection.</p>';
+
+            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
+            const sortedTimes = Object.keys(scores).sort((a, b) => {
+                const [aMin, aSec] = a.split(':').map(Number);
+                const [bMin, bSec] = b.split(':').map(Number);
+                return (aMin * 60 + aSec) - (bMin * 60 + bSec);
+            });
+            for (const time of sortedTimes) {
+                html += `<tr><td>${time}</td><td>${scores[time]}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // Render Due Date Bar (compact version)
+        function renderDueDateBar() {
+            const bar = document.getElementById('due-date-bar');
+            if (!bar) return;
+
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+
+            const pftDate = getNextDueDate('PFT');
+            const cftDate = getNextDueDate('CFT');
+
+            const pftDays = Math.ceil((pftDate - now) / (1000 * 60 * 60 * 24));
+            const cftDays = Math.ceil((cftDate - now) / (1000 * 60 * 60 * 24));
+
+            const getPriority = (days) => {
+                if (days <= 30) return 'urgent';
+                if (days <= 60) return 'soon';
+                return '';
+            };
+
+            bar.innerHTML = `
+                <div class="due-item ${getPriority(pftDays)}">
+                    <span>📅 PFT:</span>
+                    <span class="days">${pftDays} days</span>
+                    <span>(${pftDate.toLocaleDateString()})</span>
+                </div>
+                <div class="due-item ${getPriority(cftDays)}">
+                    <span>📅 CFT:</span>
+                    <span class="days">${cftDays} days</span>
+                    <span>(${cftDate.toLocaleDateString()})</span>
+                </div>
+            `;
         }
 
         // Main calculate function that routes to PFT or CFT
@@ -1762,49 +2549,16 @@
         // Update results display based on current test
         function updateResultsDisplay() {
             const testName = currentTest.toUpperCase();
-            document.getElementById('results-display').innerHTML = `
-                <div class="results-card">
-                    <h3>📊 ${testName} Results</h3>
-                    <p>Enter your ${testName} performance data and click "Calculate Score" to see your results.</p>
-                </div>
-                <div class="standards-table">
-                    <h3 style="padding: 15px; margin: 0; background: #8B0000; color: #FFD700;">${testName} Performance Standards</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Classification</th>
-                                <th>Score Range</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>CG's Excellence</strong></td>
-                                <td>285-300</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Body Comp Incentive</strong></td>
-                                <td>250-284</td>
-                            </tr>
-                            <tr>
-                                <td><strong>1st Class</strong></td>
-                                <td>235-249</td>
-                            </tr>
-                            <tr>
-                                <td><strong>2nd Class</strong></td>
-                                <td>200-234</td>
-                            </tr>
-                            <tr>
-                                <td><strong>3rd Class</strong></td>
-                                <td>150-199</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Failure</strong></td>
-                                <td>Below 150 or failure to meet minimum in any event</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
+
+            // Show initial state, hide calculated results
+            document.getElementById('results-initial').classList.remove('hidden');
+            document.getElementById('results-calculated').classList.add('hidden');
+
+            // Update initial state content with current test name
+            const initialContent = document.getElementById('results-initial');
+            initialContent.querySelector('.results-card h3').textContent = `📊 ${testName} Results`;
+            initialContent.querySelector('.results-card p').textContent = `Enter your ${testName} performance data and click "Calculate Score" to see your results.`;
+            initialContent.querySelector('.standards-table h3').textContent = `${testName} Performance Standards`;
         }
 
         // PFT calculation function with official scoring
@@ -2239,131 +2993,153 @@
             const plankDisplay = plankMin + ":" + (plankSec < 10 ? "0" + plankSec : plankSec);
             const cardioDisplay = cardioMin + ":" + (cardioSec < 10 ? "0" + cardioSec : cardioSec);
             const cardioLabel = cardioType === 'run' ? '3-Mile Run' : '5,000m Row';
+            const upperBodyLabel = upperBodyType.charAt(0).toUpperCase() + upperBodyType.slice(1);
 
-            let resultsHTML = '';
+            // Hide initial state, show calculated results
+            document.getElementById('results-initial').classList.add('hidden');
+            document.getElementById('results-calculated').classList.remove('hidden');
 
-            if (isAltitude) {
-                resultsHTML += `<div class="error" style="background: #fff3cd; color: #856404; border-left-color: #ffc107;"><strong>Altitude Test:</strong> This PFT was conducted at altitude (4,500+ feet MSL) using official compensation tables.</div>`;
-            }
+            // Update Score Summary
+            document.getElementById('total-score-value').textContent = totalScore;
+            const badge = document.getElementById('classification-badge');
+            badge.textContent = classification.name;
+            badge.className = 'classification-badge ' + classification.class;
 
-            resultsHTML += `
-                <div class="total-score">
-                    <h2>${totalScore}</h2>
-                    <div class="classification ${classification.class}">${classification.name}</div>
+            // Update Score Gauges
+            document.getElementById('score-gauges').innerHTML = createScoreGaugesHTML([
+                { label: upperBodyLabel, score: upperBodyScore },
+                { label: 'Plank', score: plankScore },
+                { label: cardioLabel, score: cardioScore }
+            ]);
+
+            // Event Breakdown HTML
+            const eventBreakdownHTML = `
+                ${isAltitude ? `<div class="error" style="background: #fff3cd; color: #856404; border-left-color: #ffc107; margin-bottom: 15px;"><strong>Altitude Test:</strong> Conducted at 4,500+ feet MSL.</div>` : ''}
+                <div class="score-item">
+                    <span>${upperBodyLabel}: ${upperBodyReps} reps</span>
+                    <span class="score-value">${upperBodyScore} pts</span>
                 </div>
-
-                ${createScoreGauges([
-                    { label: upperBodyType.charAt(0).toUpperCase() + upperBodyType.slice(1), score: upperBodyScore },
-                    { label: 'Plank', score: plankScore },
-                    { label: cardioLabel, score: cardioScore }
-                ])}
-
-                <div class="results-card">
-                    <h3>📊 PFT Event Scores</h3>
-                    <div class="score-item">
-                        <span>${upperBodyType.charAt(0).toUpperCase() + upperBodyType.slice(1)}: ${upperBodyReps} reps</span>
-                        <span class="score-value">${upperBodyScore} pts</span>
-                    </div>
-                    <div class="score-item">
-                        <span>Plank: ${plankDisplay}</span>
-                        <span class="score-value">${plankScore} pts</span>
-                    </div>
-                    <div class="score-item">
-                        <span>${cardioLabel}: ${cardioDisplay}</span>
-                        <span class="score-value">${cardioScore} pts</span>
-                    </div>
+                <div class="score-item">
+                    <span>Plank: ${plankDisplay}</span>
+                    <span class="score-value">${plankScore} pts</span>
                 </div>
-
-                ${createMinimumsDisplay('PFT', gender)}
-
+                <div class="score-item">
+                    <span>${cardioLabel}: ${cardioDisplay}</span>
+                    <span class="score-value">${cardioScore} pts</span>
+                </div>
                 ${createImprovementFeedback(totalScore, classification)}
-
-                ${createTrainingRecommendations(upperBodyType, upperBodyScore, plankScore, cardioScore, cardioType, gender, ageGroup)}
-
-                ${createAgeComparison(ageGroup, gender, upperBodyType, upperBodyReps, plankMin, plankSec, cardioType, cardioMin, cardioSec, isAltitude)}
-
-                ${createExpandableScoringTable(
-                    upperBodyType === 'pullups' ? 'Pull-up Scoring Table' : 'Push-up Scoring Table',
-                    'scoring-table-upper',
-                    generatePullupTableHTML(gender, ageGroup)
-                )}
-
-                ${createExpandableScoringTable('Plank Scoring Table', 'scoring-table-plank', generatePlankTableHTML())}
-
-                <div class="result-actions">
-                    <button class="action-btn" onclick="printResults()">🖨️ Print</button>
-                    <button class="action-btn" onclick="shareResults(${totalScore}, '${classification.name}', 'PFT')">📤 Share</button>
-                    <button class="action-btn" onclick="openSimulator()">🎯 What-If</button>
-                </div>
             `;
 
-            document.getElementById('results-display').innerHTML = resultsHTML;
+            // Minimums HTML
+            const minimumsHTML = createMinimumsDisplayContent('PFT', gender);
+
+            // Training Recommendations HTML
+            const trainingHTML = createTrainingRecommendationsContent(upperBodyType, upperBodyScore, plankScore, cardioScore, cardioType, gender, ageGroup);
+
+            // Age Comparison HTML
+            const ageComparisonHTML = createAgeComparisonContent(ageGroup, gender, upperBodyType, upperBodyReps, plankMin, plankSec, cardioType, cardioMin, cardioSec, isAltitude);
+
+            // Simulator HTML
+            const simulatorHTML = createInlineSimulatorPFT(upperBodyType, upperBodyReps, plankMin, plankSec, cardioType, cardioMin, cardioSec);
+
+            // Populate Desktop Tabs
+            document.getElementById('desktop-event-breakdown').innerHTML = `<div class="results-card"><h3>📊 PFT Event Scores</h3>${eventBreakdownHTML}</div>`;
+            document.getElementById('desktop-minimums').innerHTML = minimumsHTML;
+            document.getElementById('desktop-simulator-inline').innerHTML = simulatorHTML;
+            document.getElementById('desktop-age-comparison').innerHTML = ageComparisonHTML;
+            document.getElementById('desktop-training-recs').innerHTML = trainingHTML;
+
+            // Populate Mobile Accordions
+            document.getElementById('mobile-event-breakdown').innerHTML = eventBreakdownHTML;
+            document.getElementById('mobile-minimums').innerHTML = minimumsHTML;
+            document.getElementById('mobile-simulator').innerHTML = simulatorHTML;
+            document.getElementById('mobile-training-recs').innerHTML = trainingHTML;
+            document.getElementById('mobile-age-comparison').innerHTML = ageComparisonHTML;
+
+            // Update Due Date Bar
+            renderDueDateBar();
+
+            // Render History in both locations
+            renderHistoryForUI();
 
             // Save to history
             saveToHistory('PFT', totalScore, classification.name);
-            renderHistory();
         }
 
         function displayCFTResults(mtcMin, mtcSec, mtcScore,
                                  ammoLifts, alScore,
                                  manufMin, manufSec, manufScore,
-                                 totalScore, classification, isAltitude, gender) {
+                                 totalScore, classification, isAltitude, gender, ageGroup) {
 
             const mtcDisplay = mtcMin + ":" + (mtcSec < 10 ? "0" + mtcSec : mtcSec);
             const manufDisplay = manufMin + ":" + (manufSec < 10 ? "0" + manufSec : manufSec);
 
-            let resultsHTML = '';
+            // Hide initial state, show calculated results
+            document.getElementById('results-initial').classList.add('hidden');
+            document.getElementById('results-calculated').classList.remove('hidden');
 
-            if (isAltitude) {
-                resultsHTML += `<div class="error" style="background: #fff3cd; color: #856404; border-left-color: #ffc107;"><strong>Altitude Test:</strong> This CFT was conducted at altitude (4,500+ feet MSL).</div>`;
-            }
+            // Update Score Summary
+            document.getElementById('total-score-value').textContent = totalScore;
+            const badge = document.getElementById('classification-badge');
+            badge.textContent = classification.name;
+            badge.className = 'classification-badge ' + classification.class;
 
-            resultsHTML += `
-                <div class="total-score">
-                    <h2>${totalScore}</h2>
-                    <div class="classification ${classification.class}">${classification.name}</div>
+            // Update Score Gauges
+            document.getElementById('score-gauges').innerHTML = createScoreGaugesHTML([
+                { label: 'MTC', score: mtcScore },
+                { label: 'Ammo Lift', score: alScore },
+                { label: 'MANUF', score: manufScore }
+            ]);
+
+            // Event Breakdown HTML
+            const eventBreakdownHTML = `
+                ${isAltitude ? `<div class="error" style="background: #fff3cd; color: #856404; border-left-color: #ffc107; margin-bottom: 15px;"><strong>Altitude Test:</strong> Conducted at 4,500+ feet MSL.</div>` : ''}
+                <div class="score-item">
+                    <span>Movement to Contact: ${mtcDisplay}</span>
+                    <span class="score-value">${mtcScore} pts</span>
                 </div>
-
-                ${createScoreGauges([
-                    { label: 'MTC', score: mtcScore },
-                    { label: 'Ammo Lift', score: alScore },
-                    { label: 'MANUF', score: manufScore }
-                ])}
-
-                <div class="results-card">
-                    <h3>📊 CFT Event Scores</h3>
-                    <div class="score-item">
-                        <span>Movement to Contact: ${mtcDisplay}</span>
-                        <span class="score-value">${mtcScore} pts</span>
-                    </div>
-                    <div class="score-item">
-                        <span>Ammunition Lift: ${ammoLifts} reps</span>
-                        <span class="score-value">${alScore} pts</span>
-                    </div>
-                    <div class="score-item">
-                        <span>Maneuver Under Fire: ${manufDisplay}</span>
-                        <span class="score-value">${manufScore} pts</span>
-                    </div>
+                <div class="score-item">
+                    <span>Ammunition Lift: ${ammoLifts} reps</span>
+                    <span class="score-value">${alScore} pts</span>
                 </div>
-
-                ${createMinimumsDisplay('CFT', gender)}
-
+                <div class="score-item">
+                    <span>Maneuver Under Fire: ${manufDisplay}</span>
+                    <span class="score-value">${manufScore} pts</span>
+                </div>
                 ${createImprovementFeedback(totalScore, classification)}
-
-                ${createCFTTrainingRecommendations(mtcScore, alScore, manufScore, gender)}
-
-                <div class="result-actions">
-                    <button class="action-btn" onclick="printResults()">🖨️ Print</button>
-                    <button class="action-btn" onclick="shareResults(${totalScore}, '${classification.name}', 'CFT')">📤 Share</button>
-                    <button class="action-btn" onclick="openSimulator()">🎯 What-If</button>
-                </div>
             `;
 
-            document.getElementById('results-display').innerHTML = resultsHTML;
+            // Minimums HTML
+            const minimumsHTML = createMinimumsDisplayContent('CFT', gender);
+
+            // Training Recommendations HTML
+            const trainingHTML = createCFTTrainingRecommendationsContent(mtcScore, alScore, manufScore, gender);
+
+            // Simulator HTML
+            const simulatorHTML = createInlineSimulatorCFT(mtcMin, mtcSec, ammoLifts, manufMin, manufSec);
+
+            // Populate Desktop Tabs
+            document.getElementById('desktop-event-breakdown').innerHTML = `<div class="results-card"><h3>📊 CFT Event Scores</h3>${eventBreakdownHTML}</div>`;
+            document.getElementById('desktop-minimums').innerHTML = minimumsHTML;
+            document.getElementById('desktop-simulator-inline').innerHTML = simulatorHTML;
+            document.getElementById('desktop-age-comparison').innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 20px;">Age comparison not available for CFT.</p>';
+            document.getElementById('desktop-training-recs').innerHTML = trainingHTML;
+
+            // Populate Mobile Accordions
+            document.getElementById('mobile-event-breakdown').innerHTML = eventBreakdownHTML;
+            document.getElementById('mobile-minimums').innerHTML = minimumsHTML;
+            document.getElementById('mobile-simulator').innerHTML = simulatorHTML;
+            document.getElementById('mobile-training-recs').innerHTML = trainingHTML;
+            document.getElementById('mobile-age-comparison').innerHTML = '<p style="color: var(--text-secondary);">Age comparison not available for CFT.</p>';
+
+            // Update Due Date Bar
+            renderDueDateBar();
+
+            // Render History in both locations
+            renderHistoryForUI();
 
             // Save to history
             saveToHistory('CFT', totalScore, classification.name);
-            renderHistory();
         }
 
         // ===============================
@@ -2404,6 +3180,234 @@
             if (score >= 60) return '#ffc107';  // Yellow
             if (score >= 40) return '#fd7e14';  // Orange
             return '#dc3545';  // Red
+        }
+
+        // Returns just the gauges HTML without wrapper div
+        function createScoreGaugesHTML(events) {
+            return events.map(event => createSingleGauge(event.label, event.score)).join('');
+        }
+
+        // ===============================
+        // NEW CONTENT-ONLY HELPERS
+        // ===============================
+
+        // Minimums Display Content (no wrapper)
+        function createMinimumsDisplayContent(testType, gender) {
+            const minimums = testType === 'PFT' ? {
+                pullups: gender === 'male' ? 4 : 1,
+                pushups: gender === 'male' ? 40 : 15,
+                plank: '1:03',
+                run: gender === 'male' ? '27:40' : '30:50'
+            } : {
+                mtc: gender === 'male' ? '4:13' : '5:00',
+                ammo: gender === 'male' ? 45 : 25,
+                manuf: gender === 'male' ? '3:58' : '4:56'
+            };
+
+            if (testType === 'PFT') {
+                return `
+                    <div class="minimums-display">
+                        <h4>⚠️ Minimum Requirements (${gender})</h4>
+                        <div class="min-item"><span>Pull-ups (min)</span><span>${minimums.pullups} reps</span></div>
+                        <div class="min-item"><span>Push-ups (min)</span><span>${minimums.pushups} reps</span></div>
+                        <div class="min-item"><span>Plank (min)</span><span>${minimums.plank}</span></div>
+                        <div class="min-item"><span>Run (max time)</span><span>${minimums.run}</span></div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="minimums-display">
+                        <h4>⚠️ Minimum Requirements (${gender})</h4>
+                        <div class="min-item"><span>MTC (max time)</span><span>${minimums.mtc}</span></div>
+                        <div class="min-item"><span>Ammo Lift (min)</span><span>${minimums.ammo} reps</span></div>
+                        <div class="min-item"><span>MANUF (max time)</span><span>${minimums.manuf}</span></div>
+                    </div>
+                `;
+            }
+        }
+
+        // Training Recommendations Content
+        function createTrainingRecommendationsContent(upperBodyType, upperBodyScore, plankScore, cardioScore, cardioType, gender, ageGroup) {
+            const scores = [
+                { name: upperBodyType, score: upperBodyScore },
+                { name: 'plank', score: plankScore },
+                { name: cardioType, score: cardioScore }
+            ];
+            const weakest = scores.reduce((a, b) => a.score < b.score ? a : b);
+
+            const tips = {
+                pullups: 'Consider adding assisted pull-up progressions, negative pull-ups, and lat pulldowns to your routine.',
+                pushups: 'Focus on push-up variations: wide grip, diamond, and incline/decline to build strength.',
+                plank: 'Practice plank holds with progressive time increases and add dead bugs and hollow body holds.',
+                run: 'Include interval training (400m repeats), tempo runs, and progressive long runs in your schedule.',
+                row: 'Work on rowing technique, incorporate interval rows, and build aerobic base with steady-state cardio.'
+            };
+
+            return `
+                <div class="training-recs">
+                    <h4>💪 Training Focus</h4>
+                    <div class="rec-item">
+                        <strong>Weakest Event:</strong> ${weakest.name.charAt(0).toUpperCase() + weakest.name.slice(1)} (${weakest.score} pts)
+                    </div>
+                    <div class="rec-item">${tips[weakest.name] || 'Focus on balanced training across all events.'}</div>
+                </div>
+            `;
+        }
+
+        // CFT Training Recommendations Content
+        function createCFTTrainingRecommendationsContent(mtcScore, alScore, manufScore, gender) {
+            const scores = [
+                { name: 'MTC', score: mtcScore },
+                { name: 'Ammo Lift', score: alScore },
+                { name: 'MANUF', score: manufScore }
+            ];
+            const weakest = scores.reduce((a, b) => a.score < b.score ? a : b);
+
+            const tips = {
+                'MTC': 'Work on sprint intervals, shuttle runs, and anaerobic conditioning.',
+                'Ammo Lift': 'Focus on shoulder press variations, overhead carries, and high-rep endurance training.',
+                'MANUF': 'Practice the full MANUF course components: fireman carries, ammo can drags, and agility work.'
+            };
+
+            return `
+                <div class="training-recs">
+                    <h4>💪 Training Focus</h4>
+                    <div class="rec-item">
+                        <strong>Weakest Event:</strong> ${weakest.name} (${weakest.score} pts)
+                    </div>
+                    <div class="rec-item">${tips[weakest.name]}</div>
+                </div>
+            `;
+        }
+
+        // Age Comparison Content
+        function createAgeComparisonContent(currentAgeGroup, gender, upperBodyType, upperBodyReps, plankMin, plankSec, cardioType, cardioMin, cardioSec, isAltitude) {
+            const ageGroups = ['17-20', '21-25', '26-30', '31-35', '36-40', '41-45', '46-50', '51+'];
+            let rows = '';
+
+            for (const ag of ageGroups) {
+                // Recalculate scores for this age group
+                const upperScore = upperBodyType === 'pullups' ?
+                    calculatePullupScore(gender, ag, upperBodyReps) :
+                    calculatePushupScore(gender, ag, upperBodyReps);
+                const plankS = calculatePlankScore(plankMin, plankSec);
+                const cardioS = cardioType === 'run' ?
+                    calculateRunScore(gender, ag, cardioMin, cardioSec, isAltitude) :
+                    calculateRowScore(gender, ag, cardioMin, cardioSec);
+                const total = upperScore + plankS + cardioS;
+                const isCurrent = ag === currentAgeGroup;
+                const currentTotal = isCurrent ? total : null;
+
+                rows += `
+                    <div class="age-comparison-row ${isCurrent ? 'current' : ''}">
+                        <span>${ag}${isCurrent ? ' (You)' : ''}</span>
+                        <span>${total} pts</span>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="age-comparison">
+                    <h4>📊 Your Score by Age Group</h4>
+                    ${rows}
+                </div>
+            `;
+        }
+
+        // Inline Simulator for PFT
+        function createInlineSimulatorPFT(upperBodyType, upperBodyReps, plankMin, plankSec, cardioType, cardioMin, cardioSec) {
+            const upperLabel = upperBodyType.charAt(0).toUpperCase() + upperBodyType.slice(1);
+            const cardioLabel = cardioType === 'run' ? 'Run' : 'Row';
+
+            return `
+                <div class="simulator-card">
+                    <h4>🎯 What-If Simulator</h4>
+                    <p style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px;">Adjust values to see projected score:</p>
+                    <div class="simulator-row">
+                        <label>${upperLabel}:</label>
+                        <input type="number" id="sim-upper-reps" value="${upperBodyReps}" oninput="updateSimulatorPFT()"> reps
+                        <span class="projected" id="sim-upper-score">--</span>
+                    </div>
+                    <div class="simulator-row">
+                        <label>Plank:</label>
+                        <input type="number" id="sim-plank-min" value="${plankMin}" style="width:50px;" oninput="updateSimulatorPFT()">:
+                        <input type="number" id="sim-plank-sec" value="${plankSec}" style="width:50px;" oninput="updateSimulatorPFT()">
+                        <span class="projected" id="sim-plank-score">--</span>
+                    </div>
+                    <div class="simulator-row">
+                        <label>${cardioLabel}:</label>
+                        <input type="number" id="sim-cardio-min" value="${cardioMin}" style="width:50px;" oninput="updateSimulatorPFT()">:
+                        <input type="number" id="sim-cardio-sec" value="${cardioSec}" style="width:50px;" oninput="updateSimulatorPFT()">
+                        <span class="projected" id="sim-cardio-score">--</span>
+                    </div>
+                    <div class="simulator-total">
+                        <span>Projected Total:</span>
+                        <span id="sim-total-score">--</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Inline Simulator for CFT
+        function createInlineSimulatorCFT(mtcMin, mtcSec, ammoLifts, manufMin, manufSec) {
+            return `
+                <div class="simulator-card">
+                    <h4>🎯 What-If Simulator</h4>
+                    <p style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px;">Adjust values to see projected score:</p>
+                    <div class="simulator-row">
+                        <label>MTC:</label>
+                        <input type="number" id="sim-mtc-min" value="${mtcMin}" style="width:50px;" oninput="updateSimulatorCFT()">:
+                        <input type="number" id="sim-mtc-sec" value="${mtcSec}" style="width:50px;" oninput="updateSimulatorCFT()">
+                        <span class="projected" id="sim-mtc-score">--</span>
+                    </div>
+                    <div class="simulator-row">
+                        <label>Ammo Lift:</label>
+                        <input type="number" id="sim-ammo-reps" value="${ammoLifts}" oninput="updateSimulatorCFT()"> reps
+                        <span class="projected" id="sim-ammo-score">--</span>
+                    </div>
+                    <div class="simulator-row">
+                        <label>MANUF:</label>
+                        <input type="number" id="sim-manuf-min" value="${manufMin}" style="width:50px;" oninput="updateSimulatorCFT()">:
+                        <input type="number" id="sim-manuf-sec" value="${manufSec}" style="width:50px;" oninput="updateSimulatorCFT()">
+                        <span class="projected" id="sim-manuf-score">--</span>
+                    </div>
+                    <div class="simulator-total">
+                        <span>Projected Total:</span>
+                        <span id="sim-total-score">--</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render History for new UI (both desktop and mobile)
+        function renderHistoryForUI() {
+            const history = JSON.parse(localStorage.getItem('pft-cft-history') || '[]');
+
+            const historyHTML = history.length === 0 ?
+                '<p class="no-history" style="color: var(--text-secondary); text-align: center; padding: 20px;">No history saved yet. Calculate a score and click "Save" to start tracking.</p>' :
+                history.slice(0, 5).map(entry => `
+                    <div class="history-item" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                        <span>${entry.date} - ${entry.testType}</span>
+                        <span style="font-weight: bold; color: var(--marine-red);">${entry.score} pts (${entry.classification})</span>
+                    </div>
+                `).join('');
+
+            // Update desktop history
+            const desktopHistory = document.getElementById('desktop-history');
+            if (desktopHistory) {
+                desktopHistory.innerHTML = `
+                    <div class="history-panel">
+                        <h4>📜 Recent History</h4>
+                        ${historyHTML}
+                    </div>
+                `;
+            }
+
+            // Update mobile history
+            const mobileHistory = document.getElementById('mobile-history');
+            if (mobileHistory) {
+                mobileHistory.innerHTML = historyHTML;
+            }
         }
 
         // ===============================
