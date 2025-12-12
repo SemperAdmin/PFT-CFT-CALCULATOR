@@ -3264,16 +3264,11 @@
 
             for (const ag of ageGroups) {
                 // Recalculate scores for this age group
-                const upperScore = upperBodyType === 'pullups' ?
-                    calculatePullupScore(gender, ag, upperBodyReps) :
-                    calculatePushupScore(gender, ag, upperBodyReps);
+                const upperScore = calculateUpperBodyScore(gender, ag, upperBodyType, upperBodyReps);
                 const plankS = calculatePlankScore(plankMin, plankSec);
-                const cardioS = cardioType === 'run' ?
-                    calculateRunScore(gender, ag, cardioMin, cardioSec, isAltitude) :
-                    calculateRowScore(gender, ag, cardioMin, cardioSec);
+                const cardioS = calculateOfficialCardioScore(gender, ag, cardioType, cardioMin, cardioSec, isAltitude);
                 const total = upperScore + plankS + cardioS;
                 const isCurrent = ag === currentAgeGroup;
-                const currentTotal = isCurrent ? total : null;
 
                 rows += `
                     <div class="age-comparison-row ${isCurrent ? 'current' : ''}">
