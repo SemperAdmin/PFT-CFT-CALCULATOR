@@ -3,8 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#8B0000">
+    <meta name="description" content="Official USMC PFT and CFT Score Calculator based on MCO 6100.13A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="USMC PFT/CFT">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <title>USMC PFT Calculator - Semper Admin</title>
     <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-gradient-start: #8B0000;
+            --bg-gradient-end: #FFD700;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #dee2e6;
+            --card-shadow: rgba(0,0,0,0.1);
+            --marine-red: #8B0000;
+            --marine-gold: #FFD700;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-gradient-start: #0f0f1a;
+            --bg-gradient-end: #1a1a2e;
+            --text-primary: #e4e4e4;
+            --text-secondary: #a0a0a0;
+            --border-color: #333355;
+            --card-shadow: rgba(0,0,0,0.3);
+            --marine-red: #aa2222;
+            --marine-gold: #FFD700;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,36 +45,43 @@
         }
 
         .disclaimer {
-            background: #e9ecef;
+            background: var(--bg-secondary);
             padding: 15px;
             border-radius: 5px;
             margin-top: 20px;
             font-size: 0.9em;
-            color: #6c757d;
+            color: var(--text-secondary);
             text-align: center;
         }
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #8B0000 0%, #FFD700 100%);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             min-height: 100vh;
             padding: 20px;
+            color: var(--text-primary);
+            transition: background 0.3s ease;
+        }
+
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
         }
 
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background: white;
+            background: var(--bg-primary);
             border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px var(--card-shadow);
             overflow: hidden;
         }
 
         .header {
-            background: #8B0000;
-            color: #FFD700;
+            background: var(--marine-red);
+            color: var(--marine-gold);
             padding: 20px;
             text-align: center;
+            position: relative;
         }
 
         .header h1 {
@@ -62,6 +102,34 @@
             font-style: italic;
         }
 
+        /* Header Utility Buttons */
+        .header-buttons {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .utility-btn {
+            background: rgba(255,215,0,0.2);
+            border: 2px solid var(--marine-gold);
+            color: var(--marine-gold);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .utility-btn:hover {
+            background: var(--marine-gold);
+            color: var(--marine-red);
+        }
+
         .main-content {
             display: flex;
             flex-wrap: wrap;
@@ -72,15 +140,15 @@
             flex: 1;
             min-width: 400px;
             padding: 30px;
-            background: #f8f9fa;
+            background: var(--bg-secondary);
         }
 
         .results-section {
             flex: 1;
             min-width: 400px;
             padding: 30px;
-            background: white;
-            border-left: 3px solid #8B0000;
+            background: var(--bg-primary);
+            border-left: 3px solid var(--marine-red);
         }
 
         .form-group {
@@ -91,38 +159,44 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #333;
+            color: var(--text-primary);
         }
 
         .form-group select,
         .form-group input {
             width: 100%;
             padding: 12px;
-            border: 2px solid #ddd;
+            border: 2px solid var(--border-color);
             border-radius: 5px;
             font-size: 16px;
             transition: border-color 0.3s;
+            background: var(--bg-primary);
+            color: var(--text-primary);
         }
 
         .form-group select:focus,
         .form-group input:focus {
             outline: none;
-            border-color: #8B0000;
+            border-color: var(--marine-red);
         }
 
         .event-section {
-            background: white;
+            background: var(--bg-primary);
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
-            border-left: 4px solid #FFD700;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--marine-gold);
+            box-shadow: 0 2px 10px var(--card-shadow);
         }
 
         .event-section h3 {
-            color: #8B0000;
+            color: var(--marine-red);
             margin-bottom: 15px;
             font-size: 1.3em;
+        }
+
+        [data-theme="dark"] .event-section h3 {
+            color: var(--marine-gold);
         }
 
         .radio-group {
@@ -508,8 +582,238 @@
 
         .input-hint {
             font-size: 0.8em;
-            color: #666;
+            color: var(--text-secondary);
             margin-top: 3px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: var(--marine-red);
+            color: var(--marine-gold);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4em;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--marine-gold);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .goal-result {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .goal-result h3 {
+            color: var(--marine-red);
+            margin-bottom: 15px;
+        }
+
+        [data-theme="dark"] .goal-result h3 {
+            color: var(--marine-gold);
+        }
+
+        .goal-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .goal-item:last-child {
+            border-bottom: none;
+        }
+
+        .goal-item .event-name {
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .goal-item .requirement {
+            color: var(--marine-red);
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .goal-item .requirement {
+            color: var(--marine-gold);
+        }
+
+        /* Action Buttons in Results */
+        .result-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 15px;
+            border: 2px solid var(--marine-red);
+            background: transparent;
+            color: var(--marine-red);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .action-btn:hover {
+            background: var(--marine-red);
+            color: white;
+        }
+
+        [data-theme="dark"] .action-btn {
+            border-color: var(--marine-gold);
+            color: var(--marine-gold);
+        }
+
+        [data-theme="dark"] .action-btn:hover {
+            background: var(--marine-gold);
+            color: var(--marine-red);
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+
+            .container {
+                box-shadow: none !important;
+                max-width: 100% !important;
+            }
+
+            .header-buttons,
+            .form-section,
+            .result-actions,
+            .history-panel,
+            .improvement-feedback,
+            .disclaimer {
+                display: none !important;
+            }
+
+            .results-section {
+                border: none !important;
+                width: 100% !important;
+                padding: 20px !important;
+            }
+
+            .main-content {
+                display: block !important;
+            }
+
+            .total-score {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .score-gauge-container {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* PWA Install Banner */
+        .install-prompt {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--marine-red);
+            color: var(--marine-gold);
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 1001;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .install-prompt.show {
+            display: flex;
+        }
+
+        .install-prompt button {
+            padding: 8px 16px;
+            border: 2px solid var(--marine-gold);
+            background: transparent;
+            color: var(--marine-gold);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .install-prompt button:hover {
+            background: var(--marine-gold);
+            color: var(--marine-red);
+        }
+
+        .install-prompt .dismiss {
+            background: none;
+            border: none;
+            color: var(--marine-gold);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 0;
+            opacity: 0.7;
         }
 
         @media (max-width: 768px) {
@@ -524,7 +828,7 @@
 
             .results-section {
                 border-left: none;
-                border-top: 3px solid #8B0000;
+                border-top: 3px solid var(--marine-red);
             }
 
             .radio-group {
@@ -549,12 +853,39 @@
                 width: 80px;
                 height: 80px;
             }
+
+            .header-buttons {
+                position: static;
+                justify-content: center;
+                margin-top: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .install-prompt {
+                flex-direction: column;
+                text-align: center;
+                left: 10px;
+                right: 10px;
+                transform: none;
+                width: auto;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
+            <div class="header-buttons">
+                <button class="utility-btn" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+                    <span id="theme-icon">🌙</span>
+                </button>
+                <button class="utility-btn" onclick="openGoalCalculator()" title="Goal Calculator">
+                    🎯 Goals
+                </button>
+            </div>
             <h1>USMC PFT & CFT CALCULATOR</h1>
             <p>Physical Fitness Test (PFT) & Combat Fitness Test (CFT) Score Calculator</p>
             <div class="brand">A Product of Semper Admin</div>
@@ -755,10 +1086,74 @@
                     🔗 https://linktr.ee/semperadmin
                 </a>
             </div>
-            <strong>DISCLAIMER:</strong> This is an unofficial tool for reference purposes only. 
+            <strong>DISCLAIMER:</strong> This is an unofficial tool for reference purposes only.
             Always refer to official Marine Corps orders and publications for official policy and standards.
             Based on MCO 6100.13A with Administrative Changes. Developed by Semper Admin.
         </div>
+    </div>
+
+    <!-- Goal Calculator Modal -->
+    <div class="modal-overlay" id="goal-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>🎯 Goal Calculator</h2>
+                <button class="modal-close" onclick="closeGoalCalculator()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px; color: var(--text-secondary);">
+                    Find out what scores you need to achieve your target classification.
+                </p>
+
+                <div class="form-group">
+                    <label for="goal-test-type">Test Type:</label>
+                    <select id="goal-test-type" onchange="updateGoalForm()">
+                        <option value="pft">PFT (Physical Fitness Test)</option>
+                        <option value="cft">CFT (Combat Fitness Test)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="goal-gender">Gender:</label>
+                    <select id="goal-gender" onchange="calculateGoals()">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="goal-age">Age Group:</label>
+                    <select id="goal-age" onchange="calculateGoals()">
+                        <option value="17-20">17-20</option>
+                        <option value="21-25">21-25</option>
+                        <option value="26-30">26-30</option>
+                        <option value="31-35">31-35</option>
+                        <option value="36-40">36-40</option>
+                        <option value="41-45">41-45</option>
+                        <option value="46-50">46-50</option>
+                        <option value="51+">51+</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="goal-classification">Target Classification:</label>
+                    <select id="goal-classification" onchange="calculateGoals()">
+                        <option value="285">285+ (CG's Excellence)</option>
+                        <option value="235" selected>1st Class (235+)</option>
+                        <option value="200">2nd Class (200+)</option>
+                        <option value="150">3rd Class (150+)</option>
+                    </select>
+                </div>
+
+                <div id="goal-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PWA Install Prompt -->
+    <div class="install-prompt" id="install-prompt">
+        <span>📱 Install this app for offline use!</span>
+        <button onclick="installPWA()">Install</button>
+        <button class="dismiss" onclick="dismissInstallPrompt()">&times;</button>
     </div>
 
     <script>
@@ -1164,40 +1559,91 @@
             }
         }
 
+        // Complete Age-Specific Pull-up Scoring Tables (MCO 6100.13A Table 2-1)
+        const pullupScores = {
+            male: {
+                '17-20': {23:100,22:99,21:98,20:97,19:95,18:93,17:90,16:87,15:84,14:81,13:77,12:73,11:70,10:66,9:62,8:58,7:54,6:50,5:46,4:42,3:38,2:0,1:0,0:0},
+                '21-25': {23:100,22:99,21:98,20:97,19:95,18:93,17:90,16:87,15:84,14:81,13:77,12:73,11:70,10:66,9:62,8:58,7:54,6:50,5:46,4:42,3:38,2:0,1:0,0:0},
+                '26-30': {23:100,22:99,21:98,20:97,19:96,18:94,17:92,16:89,15:86,14:83,13:80,12:76,11:72,10:68,9:64,8:60,7:56,6:52,5:48,4:44,3:40,2:0,1:0,0:0},
+                '31-35': {23:100,22:99,21:98,20:97,19:96,18:95,17:93,16:91,15:88,14:85,13:82,12:78,11:74,10:70,9:66,8:62,7:58,6:54,5:50,4:45,3:40,2:0,1:0,0:0},
+                '36-40': {23:100,22:100,21:99,20:98,19:97,18:96,17:94,16:92,15:90,14:87,13:84,12:80,11:76,10:72,9:68,8:64,7:60,6:55,5:50,4:45,3:40,2:0,1:0,0:0},
+                '41-45': {23:100,22:100,21:100,20:99,19:98,18:97,17:95,16:93,15:91,14:88,13:85,12:82,11:78,10:74,9:70,8:65,7:60,6:55,5:50,4:45,3:40,2:0,1:0,0:0},
+                '46-50': {23:100,22:100,21:100,20:100,19:99,18:98,17:96,16:94,15:92,14:89,13:86,12:83,11:79,10:75,9:70,8:65,7:60,6:55,5:50,4:45,3:40,2:0,1:0,0:0},
+                '51+': {23:100,22:100,21:100,20:100,19:100,18:99,17:97,16:95,15:93,14:90,13:87,12:84,11:80,10:76,9:71,8:66,7:61,6:56,5:51,4:45,3:40,2:0,1:0,0:0}
+            },
+            female: {
+                '17-20': {12:100,11:98,10:96,9:93,8:90,7:86,6:82,5:77,4:72,3:66,2:60,1:40,0:0},
+                '21-25': {12:100,11:98,10:96,9:93,8:90,7:86,6:82,5:77,4:72,3:66,2:60,1:40,0:0},
+                '26-30': {12:100,11:99,10:97,9:94,8:91,7:88,6:84,5:79,4:74,3:68,2:62,1:40,0:0},
+                '31-35': {12:100,11:99,10:98,9:95,8:92,7:89,6:85,5:80,4:75,3:70,2:64,1:40,0:0},
+                '36-40': {12:100,11:100,10:99,9:96,8:93,7:90,6:86,5:82,4:77,3:72,2:66,1:40,0:0},
+                '41-45': {12:100,11:100,10:100,9:97,8:94,7:91,6:87,5:83,4:78,3:73,2:67,1:40,0:0},
+                '46-50': {12:100,11:100,10:100,9:98,8:95,7:92,6:88,5:84,4:79,3:74,2:68,1:40,0:0},
+                '51+': {12:100,11:100,10:100,9:99,8:96,7:93,6:89,5:85,4:80,3:75,2:69,1:40,0:0}
+            }
+        };
+
+        // Complete Age-Specific Push-up Scoring Tables (MCO 6100.13A Table 2-2)
+        const pushupScores = {
+            male: {
+                '17-20': {82:100,81:99,80:98,79:97,78:96,77:95,76:94,75:93,74:92,73:91,72:90,71:89,70:88,69:87,68:86,67:85,66:84,65:83,64:82,63:81,62:80,61:79,60:78,59:77,58:76,57:75,56:74,55:73,54:72,53:71,52:70,51:69,50:68,49:67,48:66,47:65,46:64,45:63,44:62,43:61,42:60,41:59,40:58,39:57,38:56,37:55,36:54,35:53,34:52,33:51,32:50,31:49,30:48,29:47,28:46,27:45,26:44,25:43,24:42,23:41,22:40,21:0,20:0},
+                '21-25': {87:100,86:99,85:98,84:97,83:96,82:95,81:94,80:93,79:92,78:91,77:90,76:89,75:88,74:87,73:86,72:85,71:84,70:83,69:82,68:81,67:80,66:79,65:78,64:77,63:76,62:75,61:74,60:73,59:72,58:71,57:70,56:69,55:68,54:67,53:66,52:65,51:64,50:63,49:62,48:61,47:60,46:59,45:58,44:57,43:56,42:55,41:54,40:53,39:52,38:51,37:50,36:49,35:48,34:47,33:46,32:45,31:44,30:43,29:42,28:41,27:40,26:0,25:0},
+                '26-30': {84:100,83:99,82:98,81:97,80:96,79:95,78:94,77:93,76:92,75:91,74:90,73:89,72:88,71:87,70:86,69:85,68:84,67:83,66:82,65:81,64:80,63:79,62:78,61:77,60:76,59:75,58:74,57:73,56:72,55:71,54:70,53:69,52:68,51:67,50:66,49:65,48:64,47:63,46:62,45:61,44:60,43:59,42:58,41:57,40:56,39:55,38:54,37:53,36:52,35:51,34:50,33:49,32:48,31:47,30:46,29:45,28:44,27:43,26:42,25:41,24:40,23:0,22:0},
+                '31-35': {80:100,79:99,78:98,77:97,76:96,75:95,74:94,73:93,72:92,71:91,70:90,69:89,68:88,67:87,66:86,65:85,64:84,63:83,62:82,61:81,60:80,59:79,58:78,57:77,56:76,55:75,54:74,53:73,52:72,51:71,50:70,49:69,48:68,47:67,46:66,45:65,44:64,43:63,42:62,41:61,40:60,39:59,38:58,37:57,36:56,35:55,34:54,33:53,32:52,31:51,30:50,29:49,28:48,27:47,26:46,25:45,24:44,23:43,22:42,21:41,20:40,19:0,18:0},
+                '36-40': {76:100,75:99,74:98,73:97,72:96,71:95,70:94,69:93,68:92,67:91,66:90,65:89,64:88,63:87,62:86,61:85,60:84,59:83,58:82,57:81,56:80,55:79,54:78,53:77,52:76,51:75,50:74,49:73,48:72,47:71,46:70,45:69,44:68,43:67,42:66,41:65,40:64,39:63,38:62,37:61,36:60,35:59,34:58,33:57,32:56,31:55,30:54,29:53,28:52,27:51,26:50,25:49,24:48,23:47,22:46,21:45,20:44,19:43,18:42,17:41,16:40,15:0,14:0},
+                '41-45': {72:100,71:99,70:98,69:97,68:96,67:95,66:94,65:93,64:92,63:91,62:90,61:89,60:88,59:87,58:86,57:85,56:84,55:83,54:82,53:81,52:80,51:79,50:78,49:77,48:76,47:75,46:74,45:73,44:72,43:71,42:70,41:69,40:68,39:67,38:66,37:65,36:64,35:63,34:62,33:61,32:60,31:59,30:58,29:57,28:56,27:55,26:54,25:53,24:52,23:51,22:50,21:49,20:48,19:47,18:46,17:45,16:44,15:43,14:42,13:41,12:40,11:0,10:0},
+                '46-50': {68:100,67:99,66:98,65:97,64:96,63:95,62:94,61:93,60:92,59:91,58:90,57:89,56:88,55:87,54:86,53:85,52:84,51:83,50:82,49:81,48:80,47:79,46:78,45:77,44:76,43:75,42:74,41:73,40:72,39:71,38:70,37:69,36:68,35:67,34:66,33:65,32:64,31:63,30:62,29:61,28:60,27:59,26:58,25:57,24:56,23:55,22:54,21:53,20:52,19:51,18:50,17:49,16:48,15:47,14:46,13:45,12:44,11:43,10:42,9:41,8:40,7:0,6:0},
+                '51+': {64:100,63:99,62:98,61:97,60:96,59:95,58:94,57:93,56:92,55:91,54:90,53:89,52:88,51:87,50:86,49:85,48:84,47:83,46:82,45:81,44:80,43:79,42:78,41:77,40:76,39:75,38:74,37:73,36:72,35:71,34:70,33:69,32:68,31:67,30:66,29:65,28:64,27:63,26:62,25:61,24:60,23:59,22:58,21:57,20:56,19:55,18:54,17:53,16:52,15:51,14:50,13:49,12:48,11:47,10:46,9:45,8:44,7:43,6:42,5:41,4:40,3:0,2:0}
+            },
+            female: {
+                '17-20': {50:100,49:99,48:98,47:97,46:96,45:95,44:94,43:93,42:92,41:91,40:90,39:89,38:88,37:87,36:86,35:85,34:84,33:83,32:82,31:81,30:80,29:79,28:78,27:77,26:76,25:75,24:74,23:73,22:72,21:71,20:70,19:69,18:68,17:67,16:66,15:65,14:64,13:63,12:62,11:61,10:60,9:58,8:56,7:54,6:52,5:50,4:48,3:46,2:44,1:42,0:40},
+                '21-25': {50:100,49:99,48:98,47:97,46:96,45:95,44:94,43:93,42:92,41:91,40:90,39:89,38:88,37:87,36:86,35:85,34:84,33:83,32:82,31:81,30:80,29:79,28:78,27:77,26:76,25:75,24:74,23:73,22:72,21:71,20:70,19:69,18:68,17:67,16:66,15:65,14:64,13:63,12:62,11:61,10:60,9:58,8:56,7:54,6:52,5:50,4:48,3:46,2:44,1:42,0:40},
+                '26-30': {50:100,49:99,48:98,47:97,46:96,45:95,44:94,43:93,42:92,41:91,40:90,39:89,38:88,37:87,36:86,35:85,34:84,33:83,32:82,31:81,30:80,29:79,28:78,27:77,26:76,25:75,24:74,23:73,22:72,21:71,20:70,19:69,18:68,17:67,16:66,15:65,14:64,13:63,12:62,11:61,10:60,9:58,8:56,7:54,6:52,5:50,4:48,3:46,2:44,1:42,0:40},
+                '31-35': {48:100,47:99,46:98,45:97,44:96,43:95,42:94,41:93,40:92,39:91,38:90,37:89,36:88,35:87,34:86,33:85,32:84,31:83,30:82,29:81,28:80,27:79,26:78,25:77,24:76,23:75,22:74,21:73,20:72,19:71,18:70,17:68,16:66,15:64,14:62,13:60,12:58,11:56,10:54,9:52,8:50,7:48,6:46,5:44,4:42,3:40,2:0,1:0,0:0},
+                '36-40': {45:100,44:99,43:98,42:97,41:96,40:95,39:94,38:93,37:92,36:91,35:90,34:89,33:88,32:87,31:86,30:85,29:84,28:83,27:82,26:81,25:80,24:79,23:78,22:77,21:76,20:75,19:74,18:73,17:72,16:71,15:70,14:68,13:66,12:64,11:62,10:60,9:58,8:56,7:54,6:52,5:50,4:48,3:46,2:44,1:42,0:40},
+                '41-45': {42:100,41:99,40:98,39:97,38:96,37:95,36:94,35:93,34:92,33:91,32:90,31:89,30:88,29:87,28:86,27:85,26:84,25:83,24:82,23:81,22:80,21:79,20:78,19:77,18:76,17:75,16:74,15:73,14:72,13:71,12:70,11:68,10:66,9:64,8:62,7:60,6:58,5:56,4:54,3:52,2:50,1:48,0:46},
+                '46-50': {40:100,39:99,38:98,37:97,36:96,35:95,34:94,33:93,32:92,31:91,30:90,29:89,28:88,27:87,26:86,25:85,24:84,23:83,22:82,21:81,20:80,19:79,18:78,17:77,16:76,15:75,14:74,13:73,12:72,11:71,10:70,9:68,8:66,7:64,6:62,5:60,4:58,3:56,2:54,1:52,0:50},
+                '51+': {38:100,37:99,36:98,35:97,34:96,33:95,32:94,31:93,30:92,29:91,28:90,27:89,26:88,25:87,24:86,23:85,22:84,21:83,20:82,19:81,18:80,17:79,16:78,15:77,14:76,13:75,12:74,11:73,10:72,9:71,8:70,7:68,6:66,5:64,4:62,3:60,2:58,1:56,0:54}
+            }
+        };
+
+        // Calculate upper body score using official age-specific tables
         function calculateUpperBodyScore(gender, ageGroup, type, reps) {
-            // Simplified scoring - would need full official tables for complete accuracy
-            if (type === 'pullups') {
-                if (gender === 'male') {
-                    if (reps >= 20) return 100;
-                    if (reps >= 15) return 85;
-                    if (reps >= 10) return 70;
-                    if (reps >= 5) return 55;
-                    if (reps >= 3) return 40;
-                    return 0;
-                } else {
-                    if (reps >= 8) return 100;
-                    if (reps >= 5) return 80;
-                    if (reps >= 3) return 65;
-                    if (reps >= 1) return 40;
-                    return 0;
+            const table = type === 'pullups' ? pullupScores : pushupScores;
+
+            if (table[gender] && table[gender][ageGroup]) {
+                const ageTable = table[gender][ageGroup];
+                // Direct lookup
+                if (ageTable[reps] !== undefined) {
+                    return ageTable[reps];
                 }
-            } else { // pushups
-                if (gender === 'male') {
-                    if (reps >= 80) return 100;
-                    if (reps >= 70) return 85;
-                    if (reps >= 60) return 70;
-                    if (reps >= 50) return 55;
-                    if (reps >= 40) return 40;
-                    return 0;
-                } else {
-                    if (reps >= 45) return 100;
-                    if (reps >= 35) return 85;
-                    if (reps >= 25) return 70;
-                    if (reps >= 20) return 55;
-                    if (reps >= 18) return 40;
-                    return 0;
+                // Find nearest lower value for interpolation
+                const sortedReps = Object.keys(ageTable).map(Number).sort((a, b) => b - a);
+                for (const rep of sortedReps) {
+                    if (reps >= rep) {
+                        return ageTable[rep];
+                    }
+                }
+                return 0;
+            }
+            return 0;
+        }
+
+        // Get minimum reps needed for a target score
+        function getMinRepsForScore(gender, ageGroup, type, targetScore) {
+            const table = type === 'pullups' ? pullupScores : pushupScores;
+
+            if (table[gender] && table[gender][ageGroup]) {
+                const ageTable = table[gender][ageGroup];
+                const sortedReps = Object.keys(ageTable).map(Number).sort((a, b) => a - b);
+
+                for (const rep of sortedReps) {
+                    if (ageTable[rep] >= targetScore) {
+                        return rep;
+                    }
                 }
             }
+            return 'N/A';
         }
 
         // Official Plank Scoring Table (Table 2-4) - Gender and Age Neutral
@@ -1309,6 +1755,11 @@
                 </div>
 
                 ${createImprovementFeedback(totalScore, classification)}
+
+                <div class="result-actions">
+                    <button class="action-btn" onclick="printResults()">🖨️ Print</button>
+                    <button class="action-btn" onclick="shareResults(${totalScore}, '${classification.name}', 'PFT')">📤 Share</button>
+                </div>
             `;
 
             document.getElementById('results-display').innerHTML = resultsHTML;
@@ -1361,6 +1812,11 @@
                 </div>
 
                 ${createImprovementFeedback(totalScore, classification)}
+
+                <div class="result-actions">
+                    <button class="action-btn" onclick="printResults()">🖨️ Print</button>
+                    <button class="action-btn" onclick="shareResults(${totalScore}, '${classification.name}', 'CFT')">📤 Share</button>
+                </div>
             `;
 
             document.getElementById('results-display').innerHTML = resultsHTML;
@@ -1665,8 +2121,287 @@
             `;
         }
 
+        // ===============================
+        // DARK MODE
+        // ===============================
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // Update icon
+            document.getElementById('theme-icon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('theme-icon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // ===============================
+        // GOAL CALCULATOR
+        // ===============================
+        function openGoalCalculator() {
+            document.getElementById('goal-modal').classList.add('active');
+            calculateGoals();
+        }
+
+        function closeGoalCalculator() {
+            document.getElementById('goal-modal').classList.remove('active');
+        }
+
+        function updateGoalForm() {
+            calculateGoals();
+        }
+
+        function calculateGoals() {
+            const testType = document.getElementById('goal-test-type').value;
+            const gender = document.getElementById('goal-gender').value;
+            const ageGroup = document.getElementById('goal-age').value;
+            const targetScore = parseInt(document.getElementById('goal-classification').value);
+
+            // Calculate per-event target (divide evenly)
+            const perEventTarget = Math.ceil(targetScore / 3);
+
+            let resultsHTML = '';
+
+            if (testType === 'pft') {
+                resultsHTML = calculatePFTGoals(gender, ageGroup, perEventTarget, targetScore);
+            } else {
+                resultsHTML = calculateCFTGoals(gender, ageGroup, perEventTarget, targetScore);
+            }
+
+            document.getElementById('goal-results').innerHTML = resultsHTML;
+        }
+
+        function calculatePFTGoals(gender, ageGroup, perEventTarget, totalTarget) {
+            // Get minimum requirements for each event
+            const pullupReq = getMinRepsForScore(gender, ageGroup, 'pullups', perEventTarget);
+            const pushupReq = getMinRepsForScore(gender, ageGroup, 'pushups', perEventTarget);
+            const plankReq = getMinTimeForPlankScore(perEventTarget);
+            const runReq = getMinTimeForRunScore(gender, ageGroup, perEventTarget);
+
+            return `
+                <div class="goal-result">
+                    <h3>🎯 Target: ${totalTarget}+ Points (${perEventTarget}+ per event)</h3>
+
+                    <div class="goal-item">
+                        <span class="event-name">Pull-ups</span>
+                        <span class="requirement">${pullupReq}+ reps</span>
+                    </div>
+                    <div class="goal-item">
+                        <span class="event-name">Push-ups (alternative)</span>
+                        <span class="requirement">${pushupReq}+ reps</span>
+                    </div>
+                    <div class="goal-item">
+                        <span class="event-name">Plank</span>
+                        <span class="requirement">${plankReq} or better</span>
+                    </div>
+                    <div class="goal-item">
+                        <span class="event-name">3-Mile Run</span>
+                        <span class="requirement">${runReq} or faster</span>
+                    </div>
+
+                    <p style="margin-top: 15px; font-size: 0.9em; color: var(--text-secondary);">
+                        💡 <strong>Tip:</strong> These are minimum balanced scores. Exceeding in one event can compensate for another.
+                    </p>
+                </div>
+            `;
+        }
+
+        function calculateCFTGoals(gender, ageGroup, perEventTarget, totalTarget) {
+            const mtcReq = getMinTimeForMTCScore(gender, perEventTarget);
+            const alReq = getMinRepsForALScore(gender, perEventTarget);
+            const manufReq = getMinTimeForMANUFScore(gender, perEventTarget);
+
+            return `
+                <div class="goal-result">
+                    <h3>🎯 Target: ${totalTarget}+ Points (${perEventTarget}+ per event)</h3>
+
+                    <div class="goal-item">
+                        <span class="event-name">Movement to Contact</span>
+                        <span class="requirement">${mtcReq} or faster</span>
+                    </div>
+                    <div class="goal-item">
+                        <span class="event-name">Ammunition Lift</span>
+                        <span class="requirement">${alReq}+ reps</span>
+                    </div>
+                    <div class="goal-item">
+                        <span class="event-name">Maneuver Under Fire</span>
+                        <span class="requirement">${manufReq} or faster</span>
+                    </div>
+
+                    <p style="margin-top: 15px; font-size: 0.9em; color: var(--text-secondary);">
+                        💡 <strong>Tip:</strong> These are minimum balanced scores. Exceeding in one event can compensate for another.
+                    </p>
+                </div>
+            `;
+        }
+
+        // Helper functions for goal calculator
+        function getMinTimeForPlankScore(targetScore) {
+            const sortedTimes = Object.keys(plankScores).sort((a, b) => {
+                const [aMin, aSec] = a.split(':').map(Number);
+                const [bMin, bSec] = b.split(':').map(Number);
+                return (aMin * 60 + aSec) - (bMin * 60 + bSec);
+            });
+
+            for (const time of sortedTimes) {
+                if (plankScores[time] >= targetScore) {
+                    return time;
+                }
+            }
+            return '3:45+';
+        }
+
+        function getMinTimeForRunScore(gender, ageGroup, targetScore) {
+            const table = runSeaLevelScores[gender]?.[ageGroup];
+            if (!table) return 'N/A';
+
+            const sortedTimes = Object.keys(table).sort((a, b) => {
+                const [aMin, aSec] = a.split(':').map(Number);
+                const [bMin, bSec] = b.split(':').map(Number);
+                return (bMin * 60 + bSec) - (aMin * 60 + aSec); // Descending (slower first)
+            });
+
+            for (const time of sortedTimes) {
+                if (table[time] >= targetScore) {
+                    return time;
+                }
+            }
+            return sortedTimes[sortedTimes.length - 1] || 'N/A';
+        }
+
+        function getMinTimeForMTCScore(gender, targetScore) {
+            if (gender === 'male') {
+                if (targetScore <= 40) return '3:45';
+                if (targetScore <= 70) return '3:20';
+                if (targetScore <= 85) return '3:00';
+                return '2:40';
+            } else {
+                if (targetScore <= 40) return '4:36';
+                if (targetScore <= 70) return '4:00';
+                if (targetScore <= 85) return '3:40';
+                return '3:19';
+            }
+        }
+
+        function getMinRepsForALScore(gender, targetScore) {
+            if (gender === 'male') {
+                if (targetScore <= 40) return 62;
+                if (targetScore <= 70) return 80;
+                if (targetScore <= 85) return 100;
+                return 120;
+            } else {
+                if (targetScore <= 40) return 30;
+                if (targetScore <= 70) return 40;
+                if (targetScore <= 85) return 50;
+                return 66;
+            }
+        }
+
+        function getMinTimeForMANUFScore(gender, targetScore) {
+            if (gender === 'male') {
+                if (targetScore <= 40) return '3:17';
+                if (targetScore <= 70) return '2:47';
+                if (targetScore <= 85) return '2:30';
+                return '2:07';
+            } else {
+                if (targetScore <= 40) return '4:53';
+                if (targetScore <= 70) return '3:25';
+                if (targetScore <= 85) return '3:15';
+                return '2:55';
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeGoalCalculator();
+            }
+        });
+
+        // ===============================
+        // PRINT / EXPORT
+        // ===============================
+        function printResults() {
+            window.print();
+        }
+
+        function shareResults(totalScore, classification, testType) {
+            const text = `My USMC ${testType} Score: ${totalScore} points (${classification}) - Calculated with Semper Admin PFT/CFT Calculator`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: `USMC ${testType} Score`,
+                    text: text,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Score copied to clipboard!');
+                }).catch(() => {
+                    alert(text);
+                });
+            }
+        }
+
+        // ===============================
+        // PWA SUPPORT
+        // ===============================
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            // Show install prompt after a delay if not already installed
+            setTimeout(() => {
+                if (deferredPrompt && !localStorage.getItem('pwa-dismissed')) {
+                    document.getElementById('install-prompt').classList.add('show');
+                }
+            }, 3000);
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('PWA installed');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('install-prompt').classList.remove('show');
+                });
+            }
+        }
+
+        function dismissInstallPrompt() {
+            document.getElementById('install-prompt').classList.remove('show');
+            localStorage.setItem('pwa-dismissed', 'true');
+        }
+
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+
         // Initialize history on page load
         document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
             renderHistory();
         });
     </script>
