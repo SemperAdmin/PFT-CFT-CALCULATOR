@@ -831,6 +831,349 @@
             color: var(--marine-red);
         }
 
+        /* Minimum Requirements Display */
+        .minimums-display {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        [data-theme="dark"] .minimums-display {
+            background: linear-gradient(135deg, #3d3d1a 0%, #4a4a20 100%);
+            border-left-color: #ffc107;
+        }
+
+        .minimums-display h4 {
+            color: #856404;
+            margin: 0 0 10px 0;
+            font-size: 1em;
+        }
+
+        [data-theme="dark"] .minimums-display h4 {
+            color: #ffc107;
+        }
+
+        .minimums-display .min-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 0.9em;
+            color: #856404;
+        }
+
+        [data-theme="dark"] .minimums-display .min-item {
+            color: #e0d090;
+        }
+
+        /* What-If Simulator */
+        .simulator-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #6f42c1;
+        }
+
+        .simulator-card h4 {
+            color: #6f42c1;
+            margin: 0 0 15px 0;
+        }
+
+        [data-theme="dark"] .simulator-card h4 {
+            color: #b794f6;
+        }
+
+        .simulator-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .simulator-row label {
+            min-width: 100px;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .simulator-row input {
+            width: 80px;
+            padding: 8px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .simulator-row .projected {
+            margin-left: auto;
+            font-weight: bold;
+            color: #6f42c1;
+        }
+
+        [data-theme="dark"] .simulator-row .projected {
+            color: #b794f6;
+        }
+
+        .simulator-total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* Age Comparison */
+        .age-comparison {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #20c997;
+        }
+
+        .age-comparison h4 {
+            color: #20c997;
+            margin: 0 0 10px 0;
+        }
+
+        .age-comparison-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .age-comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .age-comparison-row.current {
+            background: rgba(32, 201, 151, 0.1);
+            margin: 0 -15px;
+            padding: 8px 15px;
+            font-weight: bold;
+        }
+
+        .age-comparison-row .score-diff {
+            font-size: 0.85em;
+        }
+
+        .age-comparison-row .score-diff.positive {
+            color: #28a745;
+        }
+
+        .age-comparison-row .score-diff.negative {
+            color: #dc3545;
+        }
+
+        /* Training Recommendations */
+        .training-recs {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        [data-theme="dark"] .training-recs {
+            background: linear-gradient(135deg, #1a3d1a 0%, #204020 100%);
+        }
+
+        .training-recs h4 {
+            color: #155724;
+            margin: 0 0 10px 0;
+        }
+
+        [data-theme="dark"] .training-recs h4 {
+            color: #69db7c;
+        }
+
+        .training-recs .rec-item {
+            padding: 8px 0;
+            font-size: 0.9em;
+            color: #155724;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        [data-theme="dark"] .training-recs .rec-item {
+            color: #a3d9a5;
+        }
+
+        .training-recs .rec-item .icon {
+            font-size: 1.1em;
+        }
+
+        /* Expandable Scoring Tables */
+        .expandable-section {
+            margin: 15px 0;
+        }
+
+        .expand-toggle {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .expand-toggle:hover {
+            background: var(--marine-red);
+            color: var(--marine-gold);
+            border-color: var(--marine-red);
+        }
+
+        .expand-toggle .arrow {
+            transition: transform 0.3s;
+        }
+
+        .expand-toggle.expanded .arrow {
+            transform: rotate(180deg);
+        }
+
+        .expandable-content {
+            display: none;
+            padding: 15px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .expandable-content.show {
+            display: block;
+        }
+
+        .scoring-table-mini {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+
+        .scoring-table-mini th,
+        .scoring-table-mini td {
+            padding: 6px 10px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .scoring-table-mini th {
+            background: var(--marine-red);
+            color: var(--marine-gold);
+        }
+
+        .scoring-table-mini tr:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        /* Due Date Reminder */
+        .due-date-section {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 2px solid var(--border-color);
+        }
+
+        .due-date-section h4 {
+            color: var(--marine-red);
+            margin: 0 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        [data-theme="dark"] .due-date-section h4 {
+            color: var(--marine-gold);
+        }
+
+        .due-date-inputs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .due-date-inputs select,
+        .due-date-inputs input {
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .due-date-inputs button {
+            padding: 10px 20px;
+            background: var(--marine-red);
+            color: var(--marine-gold);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .countdown-display {
+            text-align: center;
+            padding: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+        }
+
+        .countdown-display .days {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--marine-red);
+        }
+
+        [data-theme="dark"] .countdown-display .days {
+            color: var(--marine-gold);
+        }
+
+        .countdown-display .label {
+            font-size: 1em;
+            color: var(--text-secondary);
+        }
+
+        .countdown-display.urgent .days {
+            color: #dc3545;
+            animation: pulse 1s infinite;
+        }
+
+        .countdown-display.soon .days {
+            color: #ffc107;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .reminder-status {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
         /* Print Styles */
         @media print {
             body {
@@ -1184,6 +1527,36 @@
                 </div>
 
                 <div id="history-container"></div>
+
+                <!-- Due Date Reminder Section -->
+                <div class="due-date-section">
+                    <h4>📅 PFT/CFT Due Date Reminder</h4>
+                    <div class="due-date-inputs">
+                        <select id="reminder-test-type">
+                            <option value="PFT">PFT</option>
+                            <option value="CFT">CFT</option>
+                        </select>
+                        <input type="date" id="reminder-date" min="">
+                        <button onclick="setReminder()">Set Reminder</button>
+                    </div>
+                    <div id="reminder-display"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What-If Simulator Modal -->
+        <div class="modal-overlay" id="simulator-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>🎯 Score Simulator</h2>
+                    <button class="modal-close" onclick="closeSimulator()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p style="margin-bottom: 20px; color: var(--text-secondary);">
+                        Adjust the values below to see how changes would affect your score.
+                    </p>
+                    <div id="simulator-content"></div>
+                </div>
             </div>
         </div>
 
@@ -1473,14 +1846,33 @@
                 // Classification
                 const classification = getClassification(totalScore);
 
+                // Store data for simulator
+                lastCalculatedData = {
+                    testType: 'PFT',
+                    gender: gender,
+                    ageGroup: ageGroup,
+                    upperBodyType: upperBodyType,
+                    upperBodyReps: upperBodyReps,
+                    upperBodyScore: upperBodyScore,
+                    plankMin: plankMinutes,
+                    plankSec: plankSeconds,
+                    plankScore: plankScore,
+                    cardioType: cardioType,
+                    cardioMin: cardioMinutes,
+                    cardioSec: cardioSeconds,
+                    cardioScore: cardioScore,
+                    totalScore: totalScore,
+                    isAltitude: isAltitude
+                };
+
                 // Display results
-                displayPFTResults(upperBodyType, upperBodyReps, upperBodyScore, 
+                displayPFTResults(upperBodyType, upperBodyReps, upperBodyScore,
                              plankMinutes, plankSeconds, plankScore,
                              cardioType, cardioMinutes, cardioSeconds, cardioScore,
-                             totalScore, classification, isAltitude);
+                             totalScore, classification, isAltitude, gender, ageGroup);
 
             } catch (error) {
-                document.getElementById('results-display').innerHTML = 
+                document.getElementById('results-display').innerHTML =
                     `<div class="error"><strong>Error:</strong> ${error.message}</div>`;
             }
         }
@@ -1611,14 +2003,31 @@
                 // Classification
                 const classification = getClassification(totalScore);
 
+                // Store data for simulator
+                lastCalculatedData = {
+                    testType: 'CFT',
+                    gender: gender,
+                    ageGroup: ageGroup,
+                    mtcMin: mtcMinutes,
+                    mtcSec: mtcSeconds,
+                    mtcScore: mtcScore,
+                    ammoReps: ammoLifts,
+                    ammoScore: alScore,
+                    manufMin: manufMinutes,
+                    manufSec: manufSeconds,
+                    manufScore: manufScore,
+                    totalScore: totalScore,
+                    isAltitude: isAltitude
+                };
+
                 // Display results
                 displayCFTResults(mtcMinutes, mtcSeconds, mtcScore,
                                 ammoLifts, alScore,
                                 manufMinutes, manufSeconds, manufScore,
-                                totalScore, classification, isAltitude);
+                                totalScore, classification, isAltitude, gender);
 
             } catch (error) {
-                document.getElementById('results-display').innerHTML = 
+                document.getElementById('results-display').innerHTML =
                     `<div class="error"><strong>Error:</strong> ${error.message}</div>`;
             }
         }
@@ -1833,7 +2242,7 @@
         function displayPFTResults(upperBodyType, upperBodyReps, upperBodyScore,
                               plankMin, plankSec, plankScore,
                               cardioType, cardioMin, cardioSec, cardioScore,
-                              totalScore, classification, isAltitude) {
+                              totalScore, classification, isAltitude, gender, ageGroup) {
 
             const plankDisplay = plankMin + ":" + (plankSec < 10 ? "0" + plankSec : plankSec);
             const cardioDisplay = cardioMin + ":" + (cardioSec < 10 ? "0" + cardioSec : cardioSec);
@@ -1873,11 +2282,26 @@
                     </div>
                 </div>
 
+                ${createMinimumsDisplay('PFT', gender)}
+
                 ${createImprovementFeedback(totalScore, classification)}
+
+                ${createTrainingRecommendations(upperBodyType, upperBodyScore, plankScore, cardioScore, cardioType, gender, ageGroup)}
+
+                ${createAgeComparison(ageGroup, gender, upperBodyType, upperBodyReps, plankMin, plankSec, cardioType, cardioMin, cardioSec, isAltitude)}
+
+                ${createExpandableScoringTable(
+                    upperBodyType === 'pullups' ? 'Pull-up Scoring Table' : 'Push-up Scoring Table',
+                    'scoring-table-upper',
+                    generatePullupTableHTML(gender, ageGroup)
+                )}
+
+                ${createExpandableScoringTable('Plank Scoring Table', 'scoring-table-plank', generatePlankTableHTML())}
 
                 <div class="result-actions">
                     <button class="action-btn" onclick="printResults()">🖨️ Print</button>
                     <button class="action-btn" onclick="shareResults(${totalScore}, '${classification.name}', 'PFT')">📤 Share</button>
+                    <button class="action-btn" onclick="openSimulator()">🎯 What-If</button>
                 </div>
             `;
 
@@ -1891,7 +2315,7 @@
         function displayCFTResults(mtcMin, mtcSec, mtcScore,
                                  ammoLifts, alScore,
                                  manufMin, manufSec, manufScore,
-                                 totalScore, classification, isAltitude) {
+                                 totalScore, classification, isAltitude, gender) {
 
             const mtcDisplay = mtcMin + ":" + (mtcSec < 10 ? "0" + mtcSec : mtcSec);
             const manufDisplay = manufMin + ":" + (manufSec < 10 ? "0" + manufSec : manufSec);
@@ -1930,11 +2354,16 @@
                     </div>
                 </div>
 
+                ${createMinimumsDisplay('CFT', gender)}
+
                 ${createImprovementFeedback(totalScore, classification)}
+
+                ${createCFTTrainingRecommendations(mtcScore, alScore, manufScore, gender)}
 
                 <div class="result-actions">
                     <button class="action-btn" onclick="printResults()">🖨️ Print</button>
                     <button class="action-btn" onclick="shareResults(${totalScore}, '${classification.name}', 'CFT')">📤 Share</button>
+                    <button class="action-btn" onclick="openSimulator()">🎯 What-If</button>
                 </div>
             `;
 
@@ -2524,10 +2953,463 @@
             });
         }
 
+        // ===============================
+        // MINIMUM REQUIREMENTS DATA
+        // ===============================
+        const minimumRequirements = {
+            PFT: {
+                male: {
+                    pullups: 4,
+                    pushups: 19,
+                    plank: '1:03',
+                    run: '28:00',
+                    row: '28:00'
+                },
+                female: {
+                    pullups: 1,
+                    pushups: 6,
+                    plank: '1:03',
+                    run: '31:00',
+                    row: '31:00'
+                }
+            },
+            CFT: {
+                male: {
+                    mtc: '4:13',
+                    ammoLift: 26,
+                    manuf: '4:30'
+                },
+                female: {
+                    mtc: '5:03',
+                    ammoLift: 12,
+                    manuf: '5:30'
+                }
+            }
+        };
+
+        function createMinimumsDisplay(testType, gender) {
+            const mins = minimumRequirements[testType][gender];
+            let html = '<div class="minimums-display"><h4>⚠️ Minimum Requirements to Pass</h4>';
+
+            if (testType === 'PFT') {
+                html += `
+                    <div class="min-item"><span>Pull-ups:</span><span>${mins.pullups} reps (or ${mins.pushups} push-ups)</span></div>
+                    <div class="min-item"><span>Plank:</span><span>${mins.plank}</span></div>
+                    <div class="min-item"><span>3-Mile Run:</span><span>${mins.run}</span></div>
+                `;
+            } else {
+                html += `
+                    <div class="min-item"><span>Movement to Contact:</span><span>${mins.mtc}</span></div>
+                    <div class="min-item"><span>Ammo Lift:</span><span>${mins.ammoLift} reps</span></div>
+                    <div class="min-item"><span>Maneuver Under Fire:</span><span>${mins.manuf}</span></div>
+                `;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        // ===============================
+        // WHAT-IF SIMULATOR
+        // ===============================
+        let lastCalculatedData = null;
+
+        function openSimulator() {
+            if (!lastCalculatedData) {
+                alert('Please calculate a score first to use the simulator.');
+                return;
+            }
+
+            const modal = document.getElementById('simulator-modal');
+            const content = document.getElementById('simulator-content');
+
+            const data = lastCalculatedData;
+
+            if (data.testType === 'PFT') {
+                content.innerHTML = `
+                    <div class="simulator-row">
+                        <label>${data.upperBodyType}:</label>
+                        <input type="number" id="sim-upper" value="${data.upperBodyReps}" onchange="updateSimulator()">
+                        <span>reps</span>
+                        <span class="projected" id="sim-upper-score">${data.upperBodyScore} pts</span>
+                    </div>
+                    <div class="simulator-row">
+                        <label>Plank:</label>
+                        <input type="number" id="sim-plank-min" value="${data.plankMin}" style="width:50px" onchange="updateSimulator()">
+                        <span>:</span>
+                        <input type="number" id="sim-plank-sec" value="${data.plankSec}" style="width:50px" onchange="updateSimulator()">
+                        <span class="projected" id="sim-plank-score">${data.plankScore} pts</span>
+                    </div>
+                    <div class="simulator-row">
+                        <label>${data.cardioType === 'run' ? '3-Mile Run' : '5K Row'}:</label>
+                        <input type="number" id="sim-cardio-min" value="${data.cardioMin}" style="width:50px" onchange="updateSimulator()">
+                        <span>:</span>
+                        <input type="number" id="sim-cardio-sec" value="${data.cardioSec}" style="width:50px" onchange="updateSimulator()">
+                        <span class="projected" id="sim-cardio-score">${data.cardioScore} pts</span>
+                    </div>
+                    <div class="simulator-total">
+                        <span>Projected Total:</span>
+                        <span id="sim-total">${data.totalScore} pts</span>
+                    </div>
+                    <div id="sim-classification" style="text-align:center;margin-top:10px;font-weight:bold;"></div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="simulator-row">
+                        <label>MTC:</label>
+                        <input type="number" id="sim-mtc-min" value="${data.mtcMin}" style="width:50px" onchange="updateSimulatorCFT()">
+                        <span>:</span>
+                        <input type="number" id="sim-mtc-sec" value="${data.mtcSec}" style="width:50px" onchange="updateSimulatorCFT()">
+                        <span class="projected" id="sim-mtc-score">${data.mtcScore} pts</span>
+                    </div>
+                    <div class="simulator-row">
+                        <label>Ammo Lift:</label>
+                        <input type="number" id="sim-ammo" value="${data.ammoReps}" onchange="updateSimulatorCFT()">
+                        <span>reps</span>
+                        <span class="projected" id="sim-ammo-score">${data.ammoScore} pts</span>
+                    </div>
+                    <div class="simulator-row">
+                        <label>MANUF:</label>
+                        <input type="number" id="sim-manuf-min" value="${data.manufMin}" style="width:50px" onchange="updateSimulatorCFT()">
+                        <span>:</span>
+                        <input type="number" id="sim-manuf-sec" value="${data.manufSec}" style="width:50px" onchange="updateSimulatorCFT()">
+                        <span class="projected" id="sim-manuf-score">${data.manufScore} pts</span>
+                    </div>
+                    <div class="simulator-total">
+                        <span>Projected Total:</span>
+                        <span id="sim-total">${data.totalScore} pts</span>
+                    </div>
+                    <div id="sim-classification" style="text-align:center;margin-top:10px;font-weight:bold;"></div>
+                `;
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeSimulator() {
+            document.getElementById('simulator-modal').classList.remove('active');
+        }
+
+        function updateSimulator() {
+            const data = lastCalculatedData;
+
+            const upperReps = parseInt(document.getElementById('sim-upper').value) || 0;
+            const plankMin = parseInt(document.getElementById('sim-plank-min').value) || 0;
+            const plankSec = parseInt(document.getElementById('sim-plank-sec').value) || 0;
+            const cardioMin = parseInt(document.getElementById('sim-cardio-min').value) || 0;
+            const cardioSec = parseInt(document.getElementById('sim-cardio-sec').value) || 0;
+
+            const upperScore = calculateUpperBodyScore(data.gender, data.ageGroup, data.upperBodyType, upperReps);
+            const plankScore = calculatePlankScore(plankMin, plankSec);
+            const cardioScore = calculateOfficialCardioScore(data.gender, data.ageGroup, data.cardioType, cardioMin, cardioSec, data.isAltitude);
+
+            const totalScore = upperScore + plankScore + cardioScore;
+            const classification = getClassification(totalScore);
+
+            document.getElementById('sim-upper-score').textContent = upperScore + ' pts';
+            document.getElementById('sim-plank-score').textContent = plankScore + ' pts';
+            document.getElementById('sim-cardio-score').textContent = cardioScore + ' pts';
+            document.getElementById('sim-total').textContent = totalScore + ' pts';
+            document.getElementById('sim-classification').innerHTML =
+                `<span class="classification ${classification.class}">${classification.name}</span>`;
+        }
+
+        function updateSimulatorCFT() {
+            const data = lastCalculatedData;
+
+            const mtcMin = parseInt(document.getElementById('sim-mtc-min').value) || 0;
+            const mtcSec = parseInt(document.getElementById('sim-mtc-sec').value) || 0;
+            const ammoReps = parseInt(document.getElementById('sim-ammo').value) || 0;
+            const manufMin = parseInt(document.getElementById('sim-manuf-min').value) || 0;
+            const manufSec = parseInt(document.getElementById('sim-manuf-sec').value) || 0;
+
+            const mtcScore = calculateMTCScore(data.gender, mtcMin, mtcSec);
+            const ammoScore = calculateAmmoLiftScore(data.gender, ammoReps);
+            const manufScore = calculateMANUFScore(data.gender, manufMin, manufSec);
+
+            const totalScore = mtcScore + ammoScore + manufScore;
+            const classification = getClassification(totalScore);
+
+            document.getElementById('sim-mtc-score').textContent = mtcScore + ' pts';
+            document.getElementById('sim-ammo-score').textContent = ammoScore + ' pts';
+            document.getElementById('sim-manuf-score').textContent = manufScore + ' pts';
+            document.getElementById('sim-total').textContent = totalScore + ' pts';
+            document.getElementById('sim-classification').innerHTML =
+                `<span class="classification ${classification.class}">${classification.name}</span>`;
+        }
+
+        // ===============================
+        // AGE GROUP COMPARISON
+        // ===============================
+        const ageGroups = ['17-20', '21-25', '26-30', '31-35', '36-40', '41-45', '46-50', '51+'];
+
+        function createAgeComparison(currentAgeGroup, gender, upperBodyType, upperBodyReps, plankMin, plankSec, cardioType, cardioMin, cardioSec, isAltitude) {
+            let html = '<div class="age-comparison"><h4>📊 Score by Age Group</h4>';
+
+            const currentIndex = ageGroups.indexOf(currentAgeGroup);
+            const showGroups = [];
+
+            // Show previous, current, and next age groups
+            if (currentIndex > 0) showGroups.push(ageGroups[currentIndex - 1]);
+            showGroups.push(currentAgeGroup);
+            if (currentIndex < ageGroups.length - 1) showGroups.push(ageGroups[currentIndex + 1]);
+
+            const currentScore = calculateUpperBodyScore(gender, currentAgeGroup, upperBodyType, upperBodyReps) +
+                                calculatePlankScore(plankMin, plankSec) +
+                                calculateOfficialCardioScore(gender, currentAgeGroup, cardioType, cardioMin, cardioSec, isAltitude);
+
+            for (const ageGroup of showGroups) {
+                const upperScore = calculateUpperBodyScore(gender, ageGroup, upperBodyType, upperBodyReps);
+                const plankScore = calculatePlankScore(plankMin, plankSec);
+                const cardioScore = calculateOfficialCardioScore(gender, ageGroup, cardioType, cardioMin, cardioSec, isAltitude);
+                const totalScore = upperScore + plankScore + cardioScore;
+                const diff = totalScore - currentScore;
+                const classification = getClassification(totalScore);
+
+                const isCurrent = ageGroup === currentAgeGroup;
+                const diffClass = diff > 0 ? 'positive' : diff < 0 ? 'negative' : '';
+                const diffText = diff !== 0 ? `(${diff > 0 ? '+' : ''}${diff})` : '';
+
+                html += `
+                    <div class="age-comparison-row ${isCurrent ? 'current' : ''}">
+                        <span>${ageGroup} ${isCurrent ? '(current)' : ''}</span>
+                        <span>
+                            ${totalScore} pts - ${classification.name}
+                            <span class="score-diff ${diffClass}">${diffText}</span>
+                        </span>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        // ===============================
+        // TRAINING RECOMMENDATIONS
+        // ===============================
+        function createTrainingRecommendations(upperBodyType, upperBodyScore, plankScore, cardioScore, cardioType, gender, ageGroup) {
+            const scores = [
+                { name: upperBodyType.charAt(0).toUpperCase() + upperBodyType.slice(1), score: upperBodyScore, maxScore: 100, type: 'upper' },
+                { name: 'Plank', score: plankScore, maxScore: 100, type: 'plank' },
+                { name: cardioType === 'run' ? '3-Mile Run' : '5K Row', score: cardioScore, maxScore: 100, type: 'cardio' }
+            ];
+
+            scores.sort((a, b) => a.score - b.score);
+            const weakest = scores[0];
+            const strongest = scores[2];
+
+            let html = '<div class="training-recs"><h4>🏋️ Training Recommendations</h4>';
+
+            // Identify weakest event
+            html += `<div class="rec-item"><span class="icon">📉</span><span><strong>Focus Area:</strong> Your ${weakest.name} (${weakest.score} pts) has the most room for improvement.</span></div>`;
+
+            // Specific recommendations based on weakest event
+            if (weakest.type === 'upper') {
+                if (upperBodyType === 'pullups') {
+                    html += `<div class="rec-item"><span class="icon">💪</span><span>Add 3 more pull-ups to gain approximately 15 points. Try negative pull-ups and assisted variations.</span></div>`;
+                } else {
+                    html += `<div class="rec-item"><span class="icon">💪</span><span>Add 10 more push-ups to gain approximately 10 points. Practice push-up variations daily.</span></div>`;
+                }
+            } else if (weakest.type === 'plank') {
+                html += `<div class="rec-item"><span class="icon">🧘</span><span>Adding 15 seconds to your plank can add 5-7 points. Practice hollow body holds and dead bugs.</span></div>`;
+            } else {
+                html += `<div class="rec-item"><span class="icon">🏃</span><span>Improving your run by 30 seconds can add 5-10 points. Include interval training and tempo runs.</span></div>`;
+            }
+
+            // Point out strength
+            if (strongest.score >= 90) {
+                html += `<div class="rec-item"><span class="icon">⭐</span><span><strong>Strength:</strong> Your ${strongest.name} (${strongest.score} pts) is excellent! Maintain this level.</span></div>`;
+            }
+
+            // If close to next tier
+            const totalScore = upperBodyScore + plankScore + cardioScore;
+            const thresholds = [285, 250, 235, 200, 150];
+            for (const threshold of thresholds) {
+                if (totalScore < threshold && threshold - totalScore <= 15) {
+                    html += `<div class="rec-item"><span class="icon">🎯</span><span>You're only <strong>${threshold - totalScore} points</strong> from the next classification tier!</span></div>`;
+                    break;
+                }
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function createCFTTrainingRecommendations(mtcScore, alScore, manufScore, gender) {
+            const scores = [
+                { name: 'Movement to Contact', score: mtcScore, type: 'mtc' },
+                { name: 'Ammo Lift', score: alScore, type: 'ammo' },
+                { name: 'Maneuver Under Fire', score: manufScore, type: 'manuf' }
+            ];
+
+            scores.sort((a, b) => a.score - b.score);
+            const weakest = scores[0];
+            const strongest = scores[2];
+
+            let html = '<div class="training-recs"><h4>🏋️ Training Recommendations</h4>';
+
+            html += `<div class="rec-item"><span class="icon">📉</span><span><strong>Focus Area:</strong> Your ${weakest.name} (${weakest.score} pts) has the most room for improvement.</span></div>`;
+
+            if (weakest.type === 'mtc') {
+                html += `<div class="rec-item"><span class="icon">🏃</span><span>Work on sprint intervals - 400m repeats at race pace will improve your MTC time.</span></div>`;
+            } else if (weakest.type === 'ammo') {
+                html += `<div class="rec-item"><span class="icon">💪</span><span>Add shoulder press and front raises to your routine. Higher rep sets will build endurance for ammo lifts.</span></div>`;
+            } else {
+                html += `<div class="rec-item"><span class="icon">⚡</span><span>Practice the MANUF course movements - buddy drags, ammo can carries, and grenade throws. Efficiency matters!</span></div>`;
+            }
+
+            if (strongest.score >= 90) {
+                html += `<div class="rec-item"><span class="icon">⭐</span><span><strong>Strength:</strong> Your ${strongest.name} (${strongest.score} pts) is excellent!</span></div>`;
+            }
+
+            const totalScore = mtcScore + alScore + manufScore;
+            const thresholds = [285, 250, 235, 200, 150];
+            for (const threshold of thresholds) {
+                if (totalScore < threshold && threshold - totalScore <= 15) {
+                    html += `<div class="rec-item"><span class="icon">🎯</span><span>You're only <strong>${threshold - totalScore} points</strong> from the next classification tier!</span></div>`;
+                    break;
+                }
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        // ===============================
+        // EXPANDABLE SCORING TABLES
+        // ===============================
+        function createExpandableScoringTable(title, tableId, tableHTML) {
+            return `
+                <div class="expandable-section">
+                    <button class="expand-toggle" onclick="toggleExpand(this, '${tableId}')">
+                        <span>📋 ${title}</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="expandable-content" id="${tableId}">
+                        ${tableHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleExpand(button, contentId) {
+            button.classList.toggle('expanded');
+            document.getElementById(contentId).classList.toggle('show');
+        }
+
+        function generatePullupTableHTML(gender, ageGroup) {
+            const table = pullupScoreTables[gender][ageGroup];
+            if (!table) return '<p>Scoring table not available for this selection.</p>';
+
+            let html = '<table class="scoring-table-mini"><thead><tr><th>Reps</th><th>Points</th></tr></thead><tbody>';
+            for (let reps = 23; reps >= 0; reps--) {
+                if (table[reps] !== undefined) {
+                    html += `<tr><td>${reps}</td><td>${table[reps]}</td></tr>`;
+                }
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+
+        function generatePlankTableHTML() {
+            let html = '<table class="scoring-table-mini"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
+            const times = ['3:45', '3:30', '3:15', '3:00', '2:45', '2:30', '2:15', '2:00', '1:45', '1:30', '1:15', '1:03'];
+            const scores = [100, 99, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50];
+            for (let i = 0; i < times.length; i++) {
+                html += `<tr><td>${times[i]}</td><td>${scores[i]}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // ===============================
+        // DUE DATE REMINDER
+        // ===============================
+        function setReminder() {
+            const testType = document.getElementById('reminder-test-type').value;
+            const dateInput = document.getElementById('reminder-date').value;
+
+            if (!dateInput) {
+                alert('Please select a date.');
+                return;
+            }
+
+            const reminder = {
+                testType: testType,
+                date: dateInput,
+                setOn: new Date().toISOString()
+            };
+
+            localStorage.setItem('pftcft_reminder', JSON.stringify(reminder));
+            renderReminder();
+        }
+
+        function clearReminder() {
+            localStorage.removeItem('pftcft_reminder');
+            renderReminder();
+        }
+
+        function renderReminder() {
+            const display = document.getElementById('reminder-display');
+            const stored = localStorage.getItem('pftcft_reminder');
+
+            // Set min date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('reminder-date').setAttribute('min', today);
+
+            if (!stored) {
+                display.innerHTML = '<p class="reminder-status">No reminder set. Select a test type and date above.</p>';
+                return;
+            }
+
+            const reminder = JSON.parse(stored);
+            const dueDate = new Date(reminder.date + 'T00:00:00');
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+
+            const diffTime = dueDate - now;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            let statusClass = '';
+            let statusText = '';
+
+            if (diffDays < 0) {
+                statusClass = 'urgent';
+                statusText = 'OVERDUE!';
+            } else if (diffDays <= 7) {
+                statusClass = 'urgent';
+                statusText = 'This week!';
+            } else if (diffDays <= 30) {
+                statusClass = 'soon';
+                statusText = 'Coming up soon';
+            } else {
+                statusText = 'Scheduled';
+            }
+
+            const formattedDate = dueDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            display.innerHTML = `
+                <div class="countdown-display ${statusClass}">
+                    <div class="days">${Math.abs(diffDays)}</div>
+                    <div class="label">${diffDays < 0 ? 'days overdue' : 'days until'} ${reminder.testType}</div>
+                    <div class="reminder-status">${formattedDate} - ${statusText}</div>
+                </div>
+                <button onclick="clearReminder()" style="width:100%;margin-top:10px;padding:8px;background:#dc3545;color:white;border:none;border-radius:5px;cursor:pointer;">
+                    Clear Reminder
+                </button>
+            `;
+        }
+
         // Initialize history on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadTheme();
             renderHistory();
+            renderReminder();
         });
     </script>
 </body>
