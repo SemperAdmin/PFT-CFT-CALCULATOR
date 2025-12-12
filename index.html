@@ -320,6 +320,198 @@
             margin-right: 8px;
         }
 
+        /* Score Gauge Styles */
+        .score-gauge-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .score-gauge {
+            position: relative;
+            width: 90px;
+            height: 90px;
+        }
+
+        .score-gauge svg {
+            transform: rotate(-90deg);
+            width: 90px;
+            height: 90px;
+        }
+
+        .score-gauge circle {
+            fill: none;
+            stroke-width: 8;
+        }
+
+        .score-gauge .bg {
+            stroke: #e9ecef;
+        }
+
+        .score-gauge .progress {
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease-in-out;
+        }
+
+        .score-gauge .gauge-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .score-gauge .gauge-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #8B0000;
+        }
+
+        .score-gauge .gauge-label {
+            font-size: 0.65em;
+            color: #666;
+            max-width: 70px;
+            line-height: 1.1;
+        }
+
+        /* Points Needed Feedback */
+        .improvement-feedback {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+
+        .improvement-feedback h4 {
+            color: #1565c0;
+            margin: 0 0 10px 0;
+            font-size: 1em;
+        }
+
+        .improvement-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .improvement-item .icon {
+            width: 20px;
+            text-align: center;
+        }
+
+        .improvement-item.achieved {
+            color: #2e7d32;
+        }
+
+        /* History Panel */
+        .history-panel {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+        }
+
+        .history-panel h4 {
+            color: #8B0000;
+            margin: 0 0 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-panel .clear-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            cursor: pointer;
+        }
+
+        .history-panel .clear-btn:hover {
+            background: #c82333;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .history-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-item .date {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .history-item .test-type {
+            font-weight: bold;
+            color: #8B0000;
+        }
+
+        .history-item .score {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .history-item .classification-badge {
+            font-size: 0.75em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .history-item .classification-badge.first-class { background: #28a745; }
+        .history-item .classification-badge.second-class { background: #ffc107; color: #333; }
+        .history-item .classification-badge.third-class { background: #fd7e14; }
+        .history-item .classification-badge.fail { background: #dc3545; }
+
+        .no-history {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        /* Validation Styles */
+        .validation-error {
+            color: #dc3545;
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group input.invalid {
+            border-color: #dc3545;
+            background-color: #fff5f5;
+        }
+
+        .form-group input.valid {
+            border-color: #28a745;
+        }
+
+        .input-hint {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 3px;
+        }
+
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
@@ -342,6 +534,20 @@
 
             .time-input {
                 flex-wrap: wrap;
+            }
+
+            .score-gauge-container {
+                justify-content: center;
+            }
+
+            .score-gauge {
+                width: 80px;
+                height: 80px;
+            }
+
+            .score-gauge svg {
+                width: 80px;
+                height: 80px;
             }
         }
     </style>
@@ -395,17 +601,19 @@
                         <h3>Upper Body Strength</h3>
                         <div class="radio-group">
                             <div class="radio-option">
-                                <input type="radio" name="upper-body" value="pullups" id="pullups" checked>
+                                <input type="radio" name="upper-body" value="pullups" id="pullups" checked onchange="updateUpperBodyHint()">
                                 <label for="pullups">Pull-ups</label>
                             </div>
                             <div class="radio-option">
-                                <input type="radio" name="upper-body" value="pushups" id="pushups">
+                                <input type="radio" name="upper-body" value="pushups" id="pushups" onchange="updateUpperBodyHint()">
                                 <label for="pushups">Push-ups</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="upper-body-reps">Repetitions:</label>
-                            <input type="number" id="upper-body-reps" min="0" max="300" placeholder="Enter reps">
+                            <input type="number" id="upper-body-reps" min="0" max="100" placeholder="Enter reps" oninput="validateUpperBody(this)">
+                            <div class="input-hint" id="upper-body-hint">Pull-ups: 0-30 typical range</div>
+                            <div class="validation-error" id="upper-body-error">Please enter a valid number of repetitions</div>
                         </div>
                     </div>
 
@@ -414,10 +622,12 @@
                         <div class="form-group">
                             <label>Time (MM:SS):</label>
                             <div class="time-input">
-                                <input type="number" id="plank-minutes" min="0" max="10" placeholder="Min">
+                                <input type="number" id="plank-minutes" min="0" max="5" placeholder="Min" oninput="validatePlank()">
                                 <span>:</span>
-                                <input type="number" id="plank-seconds" min="0" max="59" placeholder="Sec">
+                                <input type="number" id="plank-seconds" min="0" max="59" placeholder="Sec" oninput="validatePlank()">
                             </div>
+                            <div class="input-hint">Max scoring time: 3:45 (100 pts)</div>
+                            <div class="validation-error" id="plank-error">Please enter a valid time (0:00 - 5:00)</div>
                         </div>
                     </div>
 
@@ -425,21 +635,23 @@
                         <h3>Aerobic Capacity</h3>
                         <div class="radio-group">
                             <div class="radio-option">
-                                <input type="radio" name="cardio-type" value="run" id="run" checked>
+                                <input type="radio" name="cardio-type" value="run" id="run" checked onchange="updateCardioHint()">
                                 <label for="run">3-Mile Run</label>
                             </div>
                             <div class="radio-option">
-                                <input type="radio" name="cardio-type" value="row" id="row">
+                                <input type="radio" name="cardio-type" value="row" id="row" onchange="updateCardioHint()">
                                 <label for="row">5,000m Row</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Time (MM:SS):</label>
                             <div class="time-input">
-                                <input type="number" id="cardio-minutes" min="0" max="60" placeholder="Min">
+                                <input type="number" id="cardio-minutes" min="0" max="45" placeholder="Min" oninput="validateCardio()">
                                 <span>:</span>
-                                <input type="number" id="cardio-seconds" min="0" max="59" placeholder="Sec">
+                                <input type="number" id="cardio-seconds" min="0" max="59" placeholder="Sec" oninput="validateCardio()">
                             </div>
+                            <div class="input-hint" id="cardio-hint">3-Mile Run: 18:00-33:00 typical range</div>
+                            <div class="validation-error" id="cardio-error">Please enter a valid time</div>
                         </div>
                     </div>
                 </div>
@@ -457,10 +669,12 @@
                         <div class="form-group">
                             <label>Time (MM:SS):</label>
                             <div class="time-input">
-                                <input type="number" id="mtc-minutes" min="0" max="10" placeholder="Min">
+                                <input type="number" id="mtc-minutes" min="0" max="6" placeholder="Min" oninput="validateMTC()">
                                 <span>:</span>
-                                <input type="number" id="mtc-seconds" min="0" max="59" placeholder="Sec">
+                                <input type="number" id="mtc-seconds" min="0" max="59" placeholder="Sec" oninput="validateMTC()">
                             </div>
+                            <div class="input-hint">880-yard sprint: 2:40-4:00 typical range</div>
+                            <div class="validation-error" id="mtc-error">Please enter a valid time</div>
                         </div>
                     </div>
 
@@ -468,7 +682,9 @@
                         <h3>Ammunition Lift (AL)</h3>
                         <div class="form-group">
                             <label for="ammo-lifts">Repetitions:</label>
-                            <input type="number" id="ammo-lifts" min="0" max="200" placeholder="Enter reps">
+                            <input type="number" id="ammo-lifts" min="0" max="150" placeholder="Enter reps" oninput="validateAmmoLift(this)">
+                            <div class="input-hint">30-lb ammo can lifts: 30-120 typical range</div>
+                            <div class="validation-error" id="ammo-error">Please enter a valid number of repetitions</div>
                         </div>
                     </div>
 
@@ -477,10 +693,12 @@
                         <div class="form-group">
                             <label>Time (MM:SS):</label>
                             <div class="time-input">
-                                <input type="number" id="manuf-minutes" min="0" max="10" placeholder="Min">
+                                <input type="number" id="manuf-minutes" min="0" max="6" placeholder="Min" oninput="validateMANUF()">
                                 <span>:</span>
-                                <input type="number" id="manuf-seconds" min="0" max="59" placeholder="Sec">
+                                <input type="number" id="manuf-seconds" min="0" max="59" placeholder="Sec" oninput="validateMANUF()">
                             </div>
+                            <div class="input-hint">300-yard course: 2:00-5:00 typical range</div>
+                            <div class="validation-error" id="manuf-error">Please enter a valid time</div>
                         </div>
                     </div>
                 </div>
@@ -492,7 +710,7 @@
                 <div id="results-display">
                     <div class="results-card">
                         <h3>📊 PFT Results</h3>
-                        <p>Enter your performance data and click "Calculate PFT Score" to see your results.</p>
+                        <p>Enter your performance data and click "Calculate Score" to see your results.</p>
                     </div>
 
                     <div class="standards-table">
@@ -525,6 +743,8 @@
                         </table>
                     </div>
                 </div>
+
+                <div id="history-container"></div>
             </div>
         </div>
 
@@ -546,6 +766,30 @@
         let currentTest = 'pft';
 
         // Complete Official USMC PFT Scoring Tables from MCO 6100.13A
+
+        // 3-Mile Run Sea-Level Scoring Table (Table 2-5) - COMPLETE ALL AGE GROUPS
+        const runSeaLevelScores = {
+            male: {
+                '17-20': { '18:00': 100, '18:10': 99, '18:20': 98, '18:30': 97, '18:40': 96, '18:50': 95, '19:00': 94, '19:10': 93, '19:20': 92, '19:30': 91, '19:40': 90, '19:50': 89, '20:00': 88, '20:10': 87, '20:20': 86, '20:30': 84, '20:40': 83, '20:50': 82, '21:00': 81, '21:10': 80, '21:20': 79, '21:30': 78, '21:40': 77, '21:50': 76, '22:00': 75, '22:10': 74, '22:20': 73, '22:30': 72, '22:40': 71, '22:50': 70, '23:00': 69, '23:10': 68, '23:20': 67, '23:30': 66, '23:40': 65, '23:50': 64, '24:00': 63, '24:10': 62, '24:20': 61, '24:30': 60, '24:40': 59, '24:50': 58, '25:00': 57 },
+                '21-25': { '18:00': 100, '18:10': 99, '18:20': 98, '18:30': 97, '18:40': 96, '18:50': 95, '19:00': 94, '19:10': 93, '19:20': 92, '19:30': 91, '19:40': 90, '19:50': 89, '20:00': 88, '20:10': 87, '20:20': 86, '20:30': 84, '20:40': 83, '20:50': 82, '21:00': 81, '21:10': 80, '21:20': 79, '21:30': 78, '21:40': 77, '21:50': 76, '22:00': 75, '22:10': 74, '22:20': 73, '22:30': 72, '22:40': 71, '22:50': 70, '23:00': 69, '23:10': 68, '23:20': 67, '23:30': 66, '23:40': 65, '23:50': 64, '24:00': 63, '24:10': 62, '24:20': 61, '24:30': 60, '24:40': 59, '24:50': 58, '25:00': 57 },
+                '26-30': { '18:00': 100, '18:20': 98, '18:30': 97, '18:40': 96, '18:50': 95, '19:00': 94, '19:10': 93, '19:20': 92, '19:30': 91, '19:40': 90, '19:50': 89, '20:00': 88, '20:10': 87, '20:20': 86, '20:30': 85, '20:40': 84, '20:50': 83, '21:00': 82, '21:10': 81, '21:20': 80, '21:30': 79, '21:40': 78, '21:50': 77, '22:00': 76, '22:10': 75, '22:20': 74, '22:30': 73, '22:40': 72, '22:50': 71, '23:00': 70, '23:10': 69, '23:20': 68, '23:30': 67, '23:40': 66, '23:50': 65, '24:00': 64, '24:10': 63, '24:20': 62, '24:30': 61, '24:40': 60, '24:50': 59, '25:00': 58 },
+                '31-35': { '18:00': 100, '18:20': 98, '18:30': 97, '18:40': 96, '18:50': 95, '19:00': 94, '19:10': 93, '19:20': 92, '19:30': 91, '19:40': 90, '19:50': 89, '20:00': 88, '20:10': 87, '20:20': 86, '20:30': 85, '20:40': 85, '20:50': 84, '21:00': 83, '21:10': 82, '21:20': 81, '21:30': 80, '21:40': 79, '21:50': 78, '22:00': 77, '22:10': 76, '22:20': 75, '22:30': 74, '22:40': 73, '22:50': 72, '23:00': 71, '23:10': 70, '23:20': 69, '23:30': 68, '23:40': 67, '23:50': 66, '24:00': 65, '24:10': 64, '24:20': 63, '24:30': 62, '24:40': 61, '24:50': 60, '25:00': 59 },
+                '36-40': { '18:00': 100, '18:30': 100, '18:40': 99, '18:50': 98, '19:00': 97, '19:10': 96, '19:20': 95, '19:30': 94, '19:40': 94, '19:50': 93, '20:00': 92, '20:10': 91, '20:20': 90, '20:30': 89, '20:40': 88, '20:50': 87, '21:00': 86, '21:10': 85, '21:20': 84, '21:30': 83, '21:40': 82, '21:50': 82, '22:00': 81, '22:10': 80, '22:20': 79, '22:30': 78, '22:40': 77, '22:50': 76, '23:00': 75, '23:10': 74, '23:20': 73, '23:30': 72, '23:40': 71, '23:50': 70, '24:00': 69, '24:10': 68, '24:20': 67, '24:30': 67, '24:40': 66, '24:50': 65, '25:00': 64 },
+                '41-45': { '18:30': 100, '18:40': 99, '18:50': 98, '19:00': 97, '19:10': 96, '19:20': 95, '19:30': 94, '19:40': 93, '19:50': 95, '20:00': 95, '20:10': 94, '20:20': 93, '20:30': 92, '20:40': 91, '20:50': 90, '21:00': 89, '21:10': 88, '21:20': 87, '21:30': 86, '21:40': 85, '21:50': 85, '22:00': 84, '22:10': 83, '22:20': 82, '22:30': 81, '22:40': 80, '22:50': 79, '23:00': 78, '23:10': 77, '23:20': 76, '23:30': 75, '23:40': 74, '23:50': 73, '24:00': 72, '24:10': 71, '24:20': 70, '24:30': 70, '24:40': 69, '24:50': 68, '25:00': 67 },
+                '46-50': { '19:00': 100, '19:10': 99, '19:20': 98, '19:30': 97, '19:40': 96, '19:50': 95, '20:00': 95, '20:10': 94, '20:20': 93, '20:30': 92, '20:40': 91, '20:50': 90, '21:00': 89, '21:10': 88, '21:20': 87, '21:30': 86, '21:40': 85, '21:50': 85, '22:00': 84, '22:10': 83, '22:20': 82, '22:30': 81, '22:40': 80, '22:50': 79, '23:00': 78, '23:10': 77, '23:20': 76, '23:30': 75, '23:40': 74, '23:50': 73, '24:00': 72, '24:10': 71, '24:20': 70, '24:30': 70, '24:40': 69, '24:50': 68, '25:00': 67 },
+                '51+': { '19:30': 100, '19:40': 99, '19:50': 98, '20:00': 97, '20:10': 96, '20:20': 95, '20:30': 96, '20:40': 95, '20:50': 94, '21:00': 93, '21:10': 92, '21:20': 91, '21:30': 90, '21:40': 90, '21:50': 89, '22:00': 88, '22:10': 87, '22:20': 86, '22:30': 85, '22:40': 84, '22:50': 84, '23:00': 83, '23:10': 82, '23:20': 81, '23:30': 80, '23:40': 79, '23:50': 78, '24:00': 77, '24:10': 76, '24:20': 75, '24:30': 74, '24:40': 73, '24:50': 72, '25:00': 71 }
+            },
+            female: {
+                '17-20': { '21:00': 100, '21:10': 99, '21:20': 98, '21:30': 97, '21:40': 96, '21:50': 95, '22:00': 94, '22:10': 93, '22:20': 92, '22:30': 91, '22:40': 90, '22:50': 89, '23:00': 88, '23:10': 87, '23:20': 86, '23:30': 85, '23:40': 84, '23:50': 83, '24:00': 82, '24:10': 81, '24:20': 80, '24:30': 79, '24:40': 78, '24:50': 77, '25:00': 76, '25:10': 75, '25:20': 74, '25:30': 73, '25:40': 72, '25:50': 71, '26:00': 70, '26:10': 68, '26:20': 67, '26:30': 66, '26:40': 65, '26:50': 64, '27:00': 63, '27:10': 62, '27:20': 61, '27:30': 60, '27:40': 59, '27:50': 58, '28:00': 57 },
+                '21-25': { '21:00': 100, '21:10': 99, '21:20': 98, '21:30': 97, '21:40': 96, '21:50': 95, '22:00': 94, '22:10': 93, '22:20': 92, '22:30': 91, '22:40': 90, '22:50': 89, '23:00': 88, '23:10': 87, '23:20': 86, '23:30': 85, '23:40': 84, '23:50': 83, '24:00': 82, '24:10': 81, '24:20': 80, '24:30': 79, '24:40': 78, '24:50': 77, '25:00': 76, '25:10': 75, '25:20': 74, '25:30': 73, '25:40': 72, '25:50': 71, '26:00': 70, '26:10': 68, '26:20': 67, '26:30': 66, '26:40': 65, '26:50': 64, '27:00': 63, '27:10': 62, '27:20': 61, '27:30': 60, '27:40': 59, '27:50': 58, '28:00': 57 },
+                '26-30': { '21:00': 100, '21:20': 98, '21:30': 97, '21:40': 96, '21:50': 95, '22:00': 94, '22:10': 93, '22:20': 92, '22:30': 91, '22:40': 90, '22:50': 89, '23:00': 88, '23:10': 87, '23:20': 86, '23:30': 85, '23:40': 84, '23:50': 83, '24:00': 82, '24:10': 81, '24:20': 80, '24:30': 79, '24:40': 78, '24:50': 77, '25:00': 76, '25:10': 75, '25:20': 74, '25:30': 73, '25:40': 72, '25:50': 71, '26:00': 70, '26:10': 69, '26:20': 68, '26:30': 67, '26:40': 66, '26:50': 65, '27:00': 64, '27:10': 63, '27:20': 62, '27:30': 61, '27:40': 60, '27:50': 59, '28:00': 58 },
+                '31-35': { '21:00': 100, '21:20': 98, '21:30': 97, '21:40': 96, '21:50': 95, '22:00': 94, '22:10': 93, '22:20': 92, '22:30': 91, '22:40': 90, '22:50': 89, '23:00': 88, '23:10': 87, '23:20': 86, '23:30': 85, '23:40': 84, '23:50': 83, '24:00': 82, '24:10': 81, '24:20': 80, '24:30': 79, '24:40': 78, '24:50': 77, '25:00': 76, '25:10': 75, '25:20': 74, '25:30': 73, '25:40': 72, '25:50': 71, '26:00': 70, '26:10': 69, '26:20': 68, '26:30': 67, '26:40': 66, '26:50': 65, '27:00': 64, '27:10': 63, '27:20': 62, '27:30': 61, '27:40': 60, '27:50': 59, '28:00': 58 },
+                '36-40': { '21:30': 100, '21:40': 99, '21:50': 98, '22:00': 97, '22:10': 96, '22:20': 95, '22:30': 94, '22:40': 93, '22:50': 92, '23:00': 91, '23:10': 90, '23:20': 89, '23:30': 88, '23:40': 87, '23:50': 86, '24:00': 85, '24:10': 84, '24:20': 83, '24:30': 82, '24:40': 81, '24:50': 80, '25:00': 79, '25:10': 78, '25:20': 77, '25:30': 76, '25:40': 75, '25:50': 74, '26:00': 73, '26:10': 72, '26:20': 71, '26:30': 70, '26:40': 69, '26:50': 68, '27:00': 67, '27:10': 66, '27:20': 65, '27:30': 64, '27:40': 63, '27:50': 62, '28:00': 61 },
+                '41-45': { '22:00': 100, '22:10': 99, '22:20': 98, '22:30': 97, '22:40': 96, '22:50': 95, '23:00': 94, '23:10': 93, '23:20': 92, '23:30': 91, '23:40': 90, '23:50': 89, '24:00': 88, '24:10': 87, '24:20': 86, '24:30': 85, '24:40': 84, '24:50': 83, '25:00': 82, '25:10': 81, '25:20': 80, '25:30': 79, '25:40': 78, '25:50': 77, '26:00': 76, '26:10': 75, '26:20': 74, '26:30': 73, '26:40': 72, '26:50': 71, '27:00': 70, '27:10': 69, '27:20': 68, '27:30': 67, '27:40': 66, '27:50': 65, '28:00': 64 },
+                '46-50': { '22:30': 100, '22:40': 99, '22:50': 98, '23:00': 97, '23:10': 96, '23:20': 95, '23:30': 94, '23:40': 93, '23:50': 92, '24:00': 91, '24:10': 90, '24:20': 89, '24:30': 88, '24:40': 87, '24:50': 86, '25:00': 85, '25:10': 84, '25:20': 83, '25:30': 82, '25:40': 81, '25:50': 80, '26:00': 79, '26:10': 78, '26:20': 77, '26:30': 76, '26:40': 75, '26:50': 74, '27:00': 73, '27:10': 72, '27:20': 71, '27:30': 70, '27:40': 69, '27:50': 68, '28:00': 67 },
+                '51+': { '22:30': 100, '22:40': 99, '22:50': 98, '23:00': 97, '23:10': 96, '23:20': 95, '23:30': 94, '23:40': 93, '23:50': 92, '24:00': 91, '24:10': 90, '24:20': 89, '24:30': 88, '24:40': 87, '24:50': 86, '25:00': 85, '25:10': 84, '25:20': 83, '25:30': 82, '25:40': 81, '25:50': 80, '26:00': 79, '26:10': 78, '26:20': 77, '26:30': 76, '26:40': 75, '26:50': 74, '27:00': 73, '27:10': 72, '27:20': 71, '27:30': 70, '27:40': 69, '27:50': 68, '28:00': 67 }
+            }
+        };
 
         // 3-Mile Run Altitude Compensation Table (Table 2-6) - COMPLETE ALL AGE GROUPS
         const runAltitudeScores = {
@@ -732,14 +976,15 @@
         // Official cardio scoring using MCO tables
         function calculateOfficialCardioScore(gender, ageGroup, cardioType, minutes, seconds, isAltitude) {
             const timeString = formatTimeForLookup(minutes, seconds);
-            
+
             if (cardioType === 'run') {
-                // Use altitude table if applicable, otherwise use regular run scoring
-                if (isAltitude && runAltitudeScores[gender] && runAltitudeScores[gender][ageGroup]) {
-                    return lookupScoreFromTable(runAltitudeScores[gender][ageGroup], timeString);
+                // Use altitude or sea-level table based on selection
+                const scoreTable = isAltitude ? runAltitudeScores : runSeaLevelScores;
+                if (scoreTable[gender] && scoreTable[gender][ageGroup]) {
+                    return lookupScoreFromTable(scoreTable[gender][ageGroup], timeString);
                 } else {
-                    // Fall back to simplified run scoring for now (would need full regular tables)
-                    return calculateSimplifiedRunScore(gender, ageGroup, minutes, seconds);
+                    // Fall back to age group 17-20 if specific age group not available
+                    return lookupScoreFromTable(scoreTable[gender]['17-20'], timeString);
                 }
             } else { // row
                 const scoreTable = isAltitude ? rowAltitudeScores : rowSeaLevelScores;
@@ -1024,13 +1269,13 @@
                               plankMin, plankSec, plankScore,
                               cardioType, cardioMin, cardioSec, cardioScore,
                               totalScore, classification, isAltitude) {
-            
+
             const plankDisplay = plankMin + ":" + (plankSec < 10 ? "0" + plankSec : plankSec);
             const cardioDisplay = cardioMin + ":" + (cardioSec < 10 ? "0" + cardioSec : cardioSec);
             const cardioLabel = cardioType === 'run' ? '3-Mile Run' : '5,000m Row';
 
             let resultsHTML = '';
-            
+
             if (isAltitude) {
                 resultsHTML += `<div class="error" style="background: #fff3cd; color: #856404; border-left-color: #ffc107;"><strong>Altitude Test:</strong> This PFT was conducted at altitude (4,500+ feet MSL) using official compensation tables.</div>`;
             }
@@ -1040,7 +1285,13 @@
                     <h2>${totalScore}</h2>
                     <div class="classification ${classification.class}">${classification.name}</div>
                 </div>
-                
+
+                ${createScoreGauges([
+                    { label: upperBodyType.charAt(0).toUpperCase() + upperBodyType.slice(1), score: upperBodyScore },
+                    { label: 'Plank', score: plankScore },
+                    { label: cardioLabel, score: cardioScore }
+                ])}
+
                 <div class="results-card">
                     <h3>📊 PFT Event Scores</h3>
                     <div class="score-item">
@@ -1056,21 +1307,27 @@
                         <span class="score-value">${cardioScore} pts</span>
                     </div>
                 </div>
+
+                ${createImprovementFeedback(totalScore, classification)}
             `;
-            
+
             document.getElementById('results-display').innerHTML = resultsHTML;
+
+            // Save to history
+            saveToHistory('PFT', totalScore, classification.name);
+            renderHistory();
         }
 
         function displayCFTResults(mtcMin, mtcSec, mtcScore,
                                  ammoLifts, alScore,
                                  manufMin, manufSec, manufScore,
                                  totalScore, classification, isAltitude) {
-            
+
             const mtcDisplay = mtcMin + ":" + (mtcSec < 10 ? "0" + mtcSec : mtcSec);
             const manufDisplay = manufMin + ":" + (manufSec < 10 ? "0" + manufSec : manufSec);
 
             let resultsHTML = '';
-            
+
             if (isAltitude) {
                 resultsHTML += `<div class="error" style="background: #fff3cd; color: #856404; border-left-color: #ffc107;"><strong>Altitude Test:</strong> This CFT was conducted at altitude (4,500+ feet MSL).</div>`;
             }
@@ -1080,7 +1337,13 @@
                     <h2>${totalScore}</h2>
                     <div class="classification ${classification.class}">${classification.name}</div>
                 </div>
-                
+
+                ${createScoreGauges([
+                    { label: 'MTC', score: mtcScore },
+                    { label: 'Ammo Lift', score: alScore },
+                    { label: 'MANUF', score: manufScore }
+                ])}
+
                 <div class="results-card">
                     <h3>📊 CFT Event Scores</h3>
                     <div class="score-item">
@@ -1096,10 +1359,316 @@
                         <span class="score-value">${manufScore} pts</span>
                     </div>
                 </div>
+
+                ${createImprovementFeedback(totalScore, classification)}
             `;
-            
+
             document.getElementById('results-display').innerHTML = resultsHTML;
+
+            // Save to history
+            saveToHistory('CFT', totalScore, classification.name);
+            renderHistory();
         }
+
+        // ===============================
+        // VISUAL SCORE GAUGES
+        // ===============================
+        function createScoreGauges(events) {
+            const gauges = events.map(event => createSingleGauge(event.label, event.score)).join('');
+            return `<div class="score-gauge-container">${gauges}</div>`;
+        }
+
+        function createSingleGauge(label, score) {
+            const radius = 36;
+            const circumference = 2 * Math.PI * radius;
+            const percentage = Math.min(score / 100, 1);
+            const offset = circumference * (1 - percentage);
+            const color = getScoreColor(score);
+
+            return `
+                <div class="score-gauge">
+                    <svg viewBox="0 0 90 90">
+                        <circle class="bg" cx="45" cy="45" r="${radius}"></circle>
+                        <circle class="progress" cx="45" cy="45" r="${radius}"
+                            stroke="${color}"
+                            stroke-dasharray="${circumference}"
+                            stroke-dashoffset="${offset}">
+                        </circle>
+                    </svg>
+                    <div class="gauge-text">
+                        <div class="gauge-value">${score}</div>
+                        <div class="gauge-label">${label}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getScoreColor(score) {
+            if (score >= 80) return '#28a745';  // Green
+            if (score >= 60) return '#ffc107';  // Yellow
+            if (score >= 40) return '#fd7e14';  // Orange
+            return '#dc3545';  // Red
+        }
+
+        // ===============================
+        // IMPROVEMENT FEEDBACK
+        // ===============================
+        function createImprovementFeedback(totalScore, classification) {
+            const thresholds = [
+                { name: '1st Class', score: 235, class: 'first-class' },
+                { name: '2nd Class', score: 200, class: 'second-class' },
+                { name: '3rd Class', score: 150, class: 'third-class' }
+            ];
+
+            let feedbackItems = [];
+
+            for (const threshold of thresholds) {
+                if (totalScore >= threshold.score) {
+                    feedbackItems.push(`
+                        <div class="improvement-item achieved">
+                            <span class="icon">✓</span>
+                            <span>${threshold.name} achieved!</span>
+                        </div>
+                    `);
+                } else {
+                    const pointsNeeded = threshold.score - totalScore;
+                    feedbackItems.push(`
+                        <div class="improvement-item">
+                            <span class="icon">→</span>
+                            <span><strong>${pointsNeeded} more points</strong> needed for ${threshold.name}</span>
+                        </div>
+                    `);
+                }
+            }
+
+            // Add specific tips based on current score
+            let tip = '';
+            if (totalScore < 150) {
+                tip = '<div class="improvement-item"><span class="icon">💡</span><span>Focus on improving your weakest event for the biggest gains.</span></div>';
+            } else if (totalScore < 235) {
+                const toFirst = 235 - totalScore;
+                tip = `<div class="improvement-item"><span class="icon">💡</span><span>Just ${toFirst} points to reach 1st Class - you're close!</span></div>`;
+            } else if (totalScore < 285) {
+                tip = '<div class="improvement-item"><span class="icon">💡</span><span>Excellent score! Push for 285+ for Commanding General recognition.</span></div>';
+            } else {
+                tip = '<div class="improvement-item achieved"><span class="icon">🏆</span><span>Outstanding performance! You\'re among the top performers.</span></div>';
+            }
+
+            return `
+                <div class="improvement-feedback">
+                    <h4>📈 Path to Improvement</h4>
+                    ${feedbackItems.join('')}
+                    ${tip}
+                </div>
+            `;
+        }
+
+        // ===============================
+        // INPUT VALIDATION FUNCTIONS
+        // ===============================
+        function validateUpperBody(input) {
+            const type = document.querySelector('input[name="upper-body"]:checked').value;
+            const value = parseInt(input.value) || 0;
+            const errorEl = document.getElementById('upper-body-error');
+
+            let max = type === 'pullups' ? 30 : 120;
+            let isValid = value >= 0 && value <= max;
+
+            input.classList.toggle('invalid', !isValid && input.value !== '');
+            input.classList.toggle('valid', isValid && input.value !== '');
+            errorEl.style.display = (!isValid && input.value !== '') ? 'block' : 'none';
+            errorEl.textContent = `Please enter 0-${max} ${type}`;
+        }
+
+        function updateUpperBodyHint() {
+            const type = document.querySelector('input[name="upper-body"]:checked').value;
+            const hintEl = document.getElementById('upper-body-hint');
+            const inputEl = document.getElementById('upper-body-reps');
+
+            if (type === 'pullups') {
+                hintEl.textContent = 'Pull-ups: 0-30 typical range';
+                inputEl.max = 30;
+            } else {
+                hintEl.textContent = 'Push-ups: 0-120 typical range';
+                inputEl.max = 120;
+            }
+            validateUpperBody(inputEl);
+        }
+
+        function validatePlank() {
+            const minEl = document.getElementById('plank-minutes');
+            const secEl = document.getElementById('plank-seconds');
+            const errorEl = document.getElementById('plank-error');
+
+            const min = parseInt(minEl.value) || 0;
+            const sec = parseInt(secEl.value) || 0;
+            const totalSec = min * 60 + sec;
+
+            let isValid = totalSec >= 0 && totalSec <= 300 && sec < 60; // Max 5 minutes
+
+            minEl.classList.toggle('invalid', !isValid && (minEl.value !== '' || secEl.value !== ''));
+            secEl.classList.toggle('invalid', !isValid && (minEl.value !== '' || secEl.value !== ''));
+            errorEl.style.display = (!isValid && (minEl.value !== '' || secEl.value !== '')) ? 'block' : 'none';
+        }
+
+        function validateCardio() {
+            const minEl = document.getElementById('cardio-minutes');
+            const secEl = document.getElementById('cardio-seconds');
+            const errorEl = document.getElementById('cardio-error');
+
+            const min = parseInt(minEl.value) || 0;
+            const sec = parseInt(secEl.value) || 0;
+
+            let isValid = min >= 0 && min <= 45 && sec >= 0 && sec < 60;
+
+            minEl.classList.toggle('invalid', !isValid && (minEl.value !== '' || secEl.value !== ''));
+            secEl.classList.toggle('invalid', !isValid && (minEl.value !== '' || secEl.value !== ''));
+            errorEl.style.display = (!isValid && (minEl.value !== '' || secEl.value !== '')) ? 'block' : 'none';
+        }
+
+        function updateCardioHint() {
+            const type = document.querySelector('input[name="cardio-type"]:checked').value;
+            const hintEl = document.getElementById('cardio-hint');
+
+            if (type === 'run') {
+                hintEl.textContent = '3-Mile Run: 18:00-33:00 typical range';
+            } else {
+                hintEl.textContent = '5,000m Row: 18:00-25:00 typical range';
+            }
+        }
+
+        function validateMTC() {
+            const minEl = document.getElementById('mtc-minutes');
+            const secEl = document.getElementById('mtc-seconds');
+            const errorEl = document.getElementById('mtc-error');
+
+            const min = parseInt(minEl.value) || 0;
+            const sec = parseInt(secEl.value) || 0;
+
+            let isValid = min >= 0 && min <= 6 && sec >= 0 && sec < 60;
+
+            minEl.classList.toggle('invalid', !isValid && (minEl.value !== '' || secEl.value !== ''));
+            secEl.classList.toggle('invalid', !isValid && (minEl.value !== '' || secEl.value !== ''));
+            errorEl.style.display = (!isValid && (minEl.value !== '' || secEl.value !== '')) ? 'block' : 'none';
+        }
+
+        function validateAmmoLift(input) {
+            const value = parseInt(input.value) || 0;
+            const errorEl = document.getElementById('ammo-error');
+
+            let isValid = value >= 0 && value <= 150;
+
+            input.classList.toggle('invalid', !isValid && input.value !== '');
+            input.classList.toggle('valid', isValid && input.value !== '');
+            errorEl.style.display = (!isValid && input.value !== '') ? 'block' : 'none';
+        }
+
+        function validateMANUF() {
+            const minEl = document.getElementById('manuf-minutes');
+            const secEl = document.getElementById('manuf-seconds');
+            const errorEl = document.getElementById('manuf-error');
+
+            const min = parseInt(minEl.value) || 0;
+            const sec = parseInt(secEl.value) || 0;
+
+            let isValid = min >= 0 && min <= 6 && sec >= 0 && sec < 60;
+
+            minEl.classList.toggle('invalid', !isValid && (minEl.value !== '' || secEl.value !== ''));
+            secEl.classList.toggle('invalid', !isValid && (minEl.value !== '' || secEl.value !== ''));
+            errorEl.style.display = (!isValid && (minEl.value !== '' || secEl.value !== '')) ? 'block' : 'none';
+        }
+
+        // ===============================
+        // LOCAL STORAGE HISTORY
+        // ===============================
+        const HISTORY_KEY = 'pft_cft_history';
+        const MAX_HISTORY = 10;
+
+        function saveToHistory(testType, score, classification) {
+            let history = getHistory();
+
+            const entry = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }),
+                testType: testType,
+                score: score,
+                classification: classification
+            };
+
+            history.unshift(entry);
+
+            // Keep only last MAX_HISTORY entries
+            if (history.length > MAX_HISTORY) {
+                history = history.slice(0, MAX_HISTORY);
+            }
+
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        }
+
+        function getHistory() {
+            try {
+                return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function clearHistory() {
+            localStorage.removeItem(HISTORY_KEY);
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-container');
+            const history = getHistory();
+
+            if (history.length === 0) {
+                container.innerHTML = `
+                    <div class="history-panel">
+                        <h4>📜 Score History</h4>
+                        <div class="no-history">No scores recorded yet. Calculate a score to start tracking!</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const historyItems = history.map(entry => {
+                const classKey = entry.classification.toLowerCase().replace(' ', '-').replace('1st', 'first').replace('2nd', 'second').replace('3rd', 'third');
+                return `
+                    <div class="history-item">
+                        <div>
+                            <div class="test-type">${entry.testType}</div>
+                            <div class="date">${entry.date}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="score">${entry.score}</div>
+                            <span class="classification-badge ${classKey}">${entry.classification}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="history-panel">
+                    <h4>
+                        <span>📜 Score History</span>
+                        <button class="clear-btn" onclick="clearHistory()">Clear</button>
+                    </h4>
+                    ${historyItems}
+                </div>
+            `;
+        }
+
+        // Initialize history on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderHistory();
+        });
     </script>
 </body>
 </html>
