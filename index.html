@@ -1644,6 +1644,60 @@
             font-weight: bold;
         }
 
+        /* Test Due Date (after PFT/CFT tabs) */
+        .test-due-date {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, var(--marine-red) 0%, #6b0000 100%);
+            border-radius: 8px;
+            margin: 10px 0 15px 0;
+            color: white;
+            font-size: 0.95em;
+        }
+
+        .test-due-date .due-label {
+            font-weight: 500;
+        }
+
+        .test-due-date .due-days {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: var(--marine-gold);
+        }
+
+        .test-due-date .due-date-text {
+            opacity: 0.9;
+        }
+
+        .test-due-date.urgent {
+            background: linear-gradient(135deg, #dc3545 0%, #a71d2a 100%);
+            animation: pulse-urgent 2s infinite;
+        }
+
+        .test-due-date.soon {
+            background: linear-gradient(135deg, #fd7e14 0%, #d35400 100%);
+        }
+
+        @keyframes pulse-urgent {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+
+        [data-theme="dark"] .test-due-date {
+            background: linear-gradient(135deg, #4a0000 0%, #2d0000 100%);
+        }
+
+        [data-theme="dark"] .test-due-date.urgent {
+            background: linear-gradient(135deg, #a71d2a 0%, #6b1520 100%);
+        }
+
+        [data-theme="dark"] .test-due-date.soon {
+            background: linear-gradient(135deg, #d35400 0%, #8a3600 100%);
+        }
+
         /* Due Date Compact Bar */
         .due-date-bar {
             display: flex;
@@ -1788,6 +1842,9 @@
                     <button class="test-tab active" onclick="switchTest('pft')">PFT</button>
                     <button class="test-tab" onclick="switchTest('cft')">CFT</button>
                 </div>
+
+                <!-- Due Date Display (contextual to selected test) -->
+                <div class="test-due-date" id="test-due-date"></div>
 
                 <div class="form-group">
                     <label for="gender">Gender:</label>
@@ -2322,6 +2379,9 @@
             document.getElementById('pft-events').classList.toggle('hidden', testType !== 'pft');
             document.getElementById('cft-events').classList.toggle('hidden', testType !== 'cft');
 
+            // Update due date display for selected test
+            renderTestDueDate();
+
             // Update results display
             updateResultsDisplay();
         }
@@ -2494,6 +2554,31 @@
                 html += `<tr><td>${range}</td><td>${points}</td></tr>`;
             }
             return html + '</tbody></table>';
+        }
+
+        // Render Test Due Date (shows only selected test's due date)
+        function renderTestDueDate() {
+            const container = document.getElementById('test-due-date');
+            if (!container) return;
+
+            const testType = currentTest.toUpperCase();
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+
+            const dueDate = getNextDueDate(testType);
+            const daysRemaining = Math.ceil((dueDate - now) / (1000 * 60 * 60 * 24));
+
+            // Determine priority class
+            let priorityClass = '';
+            if (daysRemaining <= 30) priorityClass = 'urgent';
+            else if (daysRemaining <= 60) priorityClass = 'soon';
+
+            container.className = 'test-due-date ' + priorityClass;
+            container.innerHTML = `
+                <span class="due-label">📅 ${testType} Due:</span>
+                <span class="due-days">${daysRemaining} days</span>
+                <span class="due-date-text">(${dueDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })})</span>
+            `;
         }
 
         // Render Due Date Bar (compact version)
@@ -4458,6 +4543,7 @@
             loadTheme();
             renderHistory();
             renderDueDates();
+            renderTestDueDate();
         });
     </script>
 </body>
