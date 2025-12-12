@@ -660,9 +660,30 @@
 
         .no-history {
             text-align: center;
-            color: #666;
+            color: var(--text-secondary);
             padding: 20px;
             font-style: italic;
+        }
+
+        /* History List Style (used in tabs/accordions) */
+        .history-list-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .history-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-list-item-score {
+            font-weight: bold;
+            color: var(--marine-red);
+        }
+
+        [data-theme="dark"] .history-list-item-score {
+            color: var(--marine-gold);
         }
 
         /* Validation Styles */
@@ -2323,45 +2344,43 @@
             const title = document.getElementById('table-popover-title');
             const body = document.getElementById('table-popover-body');
 
-            let tableHTML = '';
-            let titleText = '';
-
-            // Determine which table to show based on event type
-            if (eventType === 'pullups') {
-                const isPullups = document.getElementById('pullups').checked;
-                if (isPullups) {
-                    titleText = `Pull-ups Scoring (${gender}, ${ageGroup})`;
-                    tableHTML = generatePullupsTableHTML(gender, ageGroup);
-                } else {
-                    titleText = `Push-ups Scoring (${gender}, ${ageGroup})`;
-                    tableHTML = generatePushupsTableHTML(gender, ageGroup);
+            // Configuration for scoring tables
+            const tableConfig = {
+                pullups: () => {
+                    const isPullups = document.getElementById('pullups').checked;
+                    return isPullups
+                        ? { title: `Pull-ups Scoring (${gender}, ${ageGroup})`, html: generatePullupsTableHTML(gender, ageGroup) }
+                        : { title: `Push-ups Scoring (${gender}, ${ageGroup})`, html: generatePushupsTableHTML(gender, ageGroup) };
+                },
+                plank: () => ({
+                    title: 'Plank Scoring (All)',
+                    html: generatePlankPopoverTableHTML()
+                }),
+                run: () => {
+                    const isRun = document.getElementById('run').checked;
+                    const isAltitude = document.getElementById('pft-altitude-test').checked;
+                    return isRun
+                        ? { title: `3-Mile Run Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`, html: generateRunTableHTML(gender, ageGroup, isAltitude) }
+                        : { title: `5,000m Row Scoring (${gender}, ${ageGroup})`, html: generateRowTableHTML(gender, ageGroup) };
+                },
+                mtc: () => {
+                    const isAltitude = document.getElementById('altitude-test').checked;
+                    return { title: `MTC Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`, html: generateMTCTableHTML(gender, ageGroup, isAltitude) };
+                },
+                ammo: () => ({
+                    title: `Ammo Lift Scoring (${gender}, ${ageGroup})`,
+                    html: generateAmmoTableHTML(gender, ageGroup)
+                }),
+                manuf: () => {
+                    const isAltitude = document.getElementById('altitude-test').checked;
+                    return { title: `MANUF Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`, html: generateMANUFTableHTML(gender, ageGroup, isAltitude) };
                 }
-            } else if (eventType === 'plank') {
-                titleText = 'Plank Scoring (All)';
-                tableHTML = generatePlankPopoverTableHTML();
-            } else if (eventType === 'run') {
-                const isRun = document.getElementById('run').checked;
-                const isAltitude = document.getElementById('pft-altitude-test').checked;
-                if (isRun) {
-                    titleText = `3-Mile Run Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`;
-                    tableHTML = generateRunTableHTML(gender, ageGroup, isAltitude);
-                } else {
-                    titleText = `5,000m Row Scoring (${gender}, ${ageGroup})`;
-                    tableHTML = generateRowTableHTML(gender, ageGroup);
-                }
-            } else if (eventType === 'mtc') {
-                const isAltitude = document.getElementById('altitude-test').checked;
-                titleText = `MTC Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`;
-                tableHTML = generateMTCTableHTML(gender, ageGroup, isAltitude);
-            } else if (eventType === 'ammo') {
-                titleText = `Ammo Lift Scoring (${gender}, ${ageGroup})`;
-                tableHTML = generateAmmoTableHTML(gender, ageGroup);
-            } else if (eventType === 'manuf') {
-                const isAltitude = document.getElementById('altitude-test').checked;
-                titleText = `MANUF Scoring (${gender}, ${ageGroup})${isAltitude ? ' - Altitude' : ''}`;
-                tableHTML = generateMANUFTableHTML(gender, ageGroup, isAltitude);
-            }
+            };
 
+            const config = tableConfig[eventType];
+            if (!config) return;
+
+            const { title: titleText, html: tableHTML } = config();
             title.textContent = titleText;
             body.innerHTML = tableHTML;
             popover.classList.add('active');
@@ -2374,133 +2393,74 @@
             document.getElementById('table-popover-overlay').classList.remove('active');
         }
 
-        // Generate Pull-ups Table HTML for Popover
-        function generatePullupsTableHTML(gender, ageGroup) {
-            const scores = pullupScores[gender]?.[ageGroup];
+        // Helper: Generate reps-based scoring table HTML
+        function generateRepsTableHTML(scores, label = 'Reps') {
             if (!scores) return '<p>No data available for this selection.</p>';
-
-            let html = '<table class="scoring-table-popover"><thead><tr><th>Reps</th><th>Points</th></tr></thead><tbody>';
+            let html = `<table class="scoring-table-popover"><thead><tr><th>${label}</th><th>Points</th></tr></thead><tbody>`;
             const sortedReps = Object.keys(scores).map(Number).sort((a, b) => b - a);
             for (const reps of sortedReps) {
                 html += `<tr><td>${reps}</td><td>${scores[reps]}</td></tr>`;
             }
-            html += '</tbody></table>';
-            return html;
+            return html + '</tbody></table>';
+        }
+
+        // Helper: Generate time-based scoring table HTML
+        function generateTimeTableHTML(scores, sortAscending = true) {
+            if (!scores) return '<p>No data available for this selection.</p>';
+            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
+            const sortedTimes = Object.keys(scores).sort((a, b) => {
+                const [aMin, aSec] = a.split(':').map(Number);
+                const [bMin, bSec] = b.split(':').map(Number);
+                const diff = (aMin * 60 + aSec) - (bMin * 60 + bSec);
+                return sortAscending ? diff : -diff;
+            });
+            for (const time of sortedTimes) {
+                html += `<tr><td>${time}</td><td>${scores[time]}</td></tr>`;
+            }
+            return html + '</tbody></table>';
+        }
+
+        // Generate Pull-ups Table HTML for Popover
+        function generatePullupsTableHTML(gender, ageGroup) {
+            return generateRepsTableHTML(pullupScores[gender]?.[ageGroup]);
         }
 
         // Generate Push-ups Table HTML for Popover
         function generatePushupsTableHTML(gender, ageGroup) {
-            const scores = pushupScores[gender]?.[ageGroup];
-            if (!scores) return '<p>No data available for this selection.</p>';
-
-            let html = '<table class="scoring-table-popover"><thead><tr><th>Reps</th><th>Points</th></tr></thead><tbody>';
-            const sortedReps = Object.keys(scores).map(Number).sort((a, b) => b - a);
-            for (const reps of sortedReps) {
-                html += `<tr><td>${reps}</td><td>${scores[reps]}</td></tr>`;
-            }
-            html += '</tbody></table>';
-            return html;
+            return generateRepsTableHTML(pushupScores[gender]?.[ageGroup]);
         }
 
         // Generate Plank Table HTML for Popover
         function generatePlankPopoverTableHTML() {
-            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
-            const sortedTimes = Object.keys(plankScores).sort((a, b) => {
-                const [aMin, aSec] = a.split(':').map(Number);
-                const [bMin, bSec] = b.split(':').map(Number);
-                return (bMin * 60 + bSec) - (aMin * 60 + aSec);
-            });
-            for (const time of sortedTimes) {
-                html += `<tr><td>${time}</td><td>${plankScores[time]}</td></tr>`;
-            }
-            html += '</tbody></table>';
-            return html;
+            return generateTimeTableHTML(plankScores, false);
         }
 
         // Generate Run Table HTML for Popover
         function generateRunTableHTML(gender, ageGroup, isAltitude) {
             const scores = isAltitude ? runAltitudeScores[gender]?.[ageGroup] : runSeaLevelScores[gender]?.[ageGroup];
-            if (!scores) return '<p>No data available for this selection.</p>';
-
-            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
-            const sortedTimes = Object.keys(scores).sort((a, b) => {
-                const [aMin, aSec] = a.split(':').map(Number);
-                const [bMin, bSec] = b.split(':').map(Number);
-                return (aMin * 60 + aSec) - (bMin * 60 + bSec);
-            });
-            for (const time of sortedTimes) {
-                html += `<tr><td>${time}</td><td>${scores[time]}</td></tr>`;
-            }
-            html += '</tbody></table>';
-            return html;
+            return generateTimeTableHTML(scores);
         }
 
         // Generate Row Table HTML for Popover
         function generateRowTableHTML(gender, ageGroup) {
-            const scores = rowSeaLevelScores[gender]?.[ageGroup];
-            if (!scores) return '<p>No data available for this selection.</p>';
-
-            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
-            const sortedTimes = Object.keys(scores).sort((a, b) => {
-                const [aMin, aSec] = a.split(':').map(Number);
-                const [bMin, bSec] = b.split(':').map(Number);
-                return (aMin * 60 + aSec) - (bMin * 60 + bSec);
-            });
-            for (const time of sortedTimes) {
-                html += `<tr><td>${time}</td><td>${scores[time]}</td></tr>`;
-            }
-            html += '</tbody></table>';
-            return html;
+            return generateTimeTableHTML(rowSeaLevelScores[gender]?.[ageGroup]);
         }
 
         // Generate MTC Table HTML for Popover
         function generateMTCTableHTML(gender, ageGroup, isAltitude) {
             const scores = isAltitude ? mtcAltitudeScores[gender]?.[ageGroup] : mtcSeaLevelScores[gender]?.[ageGroup];
-            if (!scores) return '<p>No data available for this selection.</p>';
-
-            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
-            const sortedTimes = Object.keys(scores).sort((a, b) => {
-                const [aMin, aSec] = a.split(':').map(Number);
-                const [bMin, bSec] = b.split(':').map(Number);
-                return (aMin * 60 + aSec) - (bMin * 60 + bSec);
-            });
-            for (const time of sortedTimes) {
-                html += `<tr><td>${time}</td><td>${scores[time]}</td></tr>`;
-            }
-            html += '</tbody></table>';
-            return html;
+            return generateTimeTableHTML(scores);
         }
 
         // Generate Ammo Lift Table HTML for Popover
         function generateAmmoTableHTML(gender, ageGroup) {
-            const scores = ammoLiftScores[gender]?.[ageGroup];
-            if (!scores) return '<p>No data available for this selection.</p>';
-
-            let html = '<table class="scoring-table-popover"><thead><tr><th>Reps</th><th>Points</th></tr></thead><tbody>';
-            const sortedReps = Object.keys(scores).map(Number).sort((a, b) => b - a);
-            for (const reps of sortedReps) {
-                html += `<tr><td>${reps}</td><td>${scores[reps]}</td></tr>`;
-            }
-            html += '</tbody></table>';
-            return html;
+            return generateRepsTableHTML(ammoLiftScores[gender]?.[ageGroup]);
         }
 
         // Generate MANUF Table HTML for Popover
         function generateMANUFTableHTML(gender, ageGroup, isAltitude) {
             const scores = isAltitude ? manufAltitudeScores[gender]?.[ageGroup] : manufSeaLevelScores[gender]?.[ageGroup];
-            if (!scores) return '<p>No data available for this selection.</p>';
-
-            let html = '<table class="scoring-table-popover"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
-            const sortedTimes = Object.keys(scores).sort((a, b) => {
-                const [aMin, aSec] = a.split(':').map(Number);
-                const [bMin, bSec] = b.split(':').map(Number);
-                return (aMin * 60 + aSec) - (bMin * 60 + bSec);
-            });
-            for (const time of sortedTimes) {
-                html += `<tr><td>${time}</td><td>${scores[time]}</td></tr>`;
-            }
-            html += '</tbody></table>';
-            return html;
+            return generateTimeTableHTML(scores);
         }
 
         // Render Due Date Bar (compact version)
@@ -2769,7 +2729,7 @@
                 displayCFTResults(mtcMinutes, mtcSeconds, mtcScore,
                                 ammoLifts, alScore,
                                 manufMinutes, manufSeconds, manufScore,
-                                totalScore, classification, isAltitude, gender, ageGroup);
+                                totalScore, classification, isAltitude, gender);
 
             } catch (error) {
                 alert('Error: ' + error.message);
@@ -3067,7 +3027,7 @@
         function displayCFTResults(mtcMin, mtcSec, mtcScore,
                                  ammoLifts, alScore,
                                  manufMin, manufSec, manufScore,
-                                 totalScore, classification, isAltitude, gender, ageGroup) {
+                                 totalScore, classification, isAltitude, gender) {
 
             const mtcDisplay = mtcMin + ":" + (mtcSec < 10 ? "0" + mtcSec : mtcSec);
             const manufDisplay = manufMin + ":" + (manufSec < 10 ? "0" + manufSec : manufSec);
@@ -3382,11 +3342,11 @@
             const history = JSON.parse(localStorage.getItem('pft-cft-history') || '[]');
 
             const historyHTML = history.length === 0 ?
-                '<p class="no-history" style="color: var(--text-secondary); text-align: center; padding: 20px;">No history saved yet. Calculate a score and click "Save" to start tracking.</p>' :
+                '<p class="no-history">No history saved yet. Calculate a score and click "Save" to start tracking.</p>' :
                 history.slice(0, 5).map(entry => `
-                    <div class="history-item" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                    <div class="history-list-item">
                         <span>${entry.date} - ${entry.testType}</span>
-                        <span style="font-weight: bold; color: var(--marine-red);">${entry.score} pts (${entry.classification})</span>
+                        <span class="history-list-item-score">${entry.score} pts (${entry.classification})</span>
                     </div>
                 `).join('');
 
