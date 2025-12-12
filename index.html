@@ -2618,8 +2618,7 @@
                              totalScore, classification, isAltitude, gender, ageGroup);
 
             } catch (error) {
-                document.getElementById('results-display').innerHTML =
-                    `<div class="error"><strong>Error:</strong> ${error.message}</div>`;
+                alert('Error: ' + error.message);
             }
         }
 
@@ -2770,11 +2769,10 @@
                 displayCFTResults(mtcMinutes, mtcSeconds, mtcScore,
                                 ammoLifts, alScore,
                                 manufMinutes, manufSeconds, manufScore,
-                                totalScore, classification, isAltitude, gender);
+                                totalScore, classification, isAltitude, gender, ageGroup);
 
             } catch (error) {
-                document.getElementById('results-display').innerHTML =
-                    `<div class="error"><strong>Error:</strong> ${error.message}</div>`;
+                alert('Error: ' + error.message);
             }
         }
 
@@ -3356,19 +3354,19 @@
                     <p style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 15px;">Adjust values to see projected score:</p>
                     <div class="simulator-row">
                         <label>MTC:</label>
-                        <input type="number" id="sim-mtc-min" value="${mtcMin}" style="width:50px;" oninput="updateSimulatorCFT()">:
-                        <input type="number" id="sim-mtc-sec" value="${mtcSec}" style="width:50px;" oninput="updateSimulatorCFT()">
+                        <input type="number" id="sim-mtc-min" value="${mtcMin}" style="width:50px;" oninput="updateSimulatorCFTInline()">:
+                        <input type="number" id="sim-mtc-sec" value="${mtcSec}" style="width:50px;" oninput="updateSimulatorCFTInline()">
                         <span class="projected" id="sim-mtc-score">--</span>
                     </div>
                     <div class="simulator-row">
                         <label>Ammo Lift:</label>
-                        <input type="number" id="sim-ammo-reps" value="${ammoLifts}" oninput="updateSimulatorCFT()"> reps
+                        <input type="number" id="sim-ammo-reps" value="${ammoLifts}" oninput="updateSimulatorCFTInline()"> reps
                         <span class="projected" id="sim-ammo-score">--</span>
                     </div>
                     <div class="simulator-row">
                         <label>MANUF:</label>
-                        <input type="number" id="sim-manuf-min" value="${manufMin}" style="width:50px;" oninput="updateSimulatorCFT()">:
-                        <input type="number" id="sim-manuf-sec" value="${manufSec}" style="width:50px;" oninput="updateSimulatorCFT()">
+                        <input type="number" id="sim-manuf-min" value="${manufMin}" style="width:50px;" oninput="updateSimulatorCFTInline()">:
+                        <input type="number" id="sim-manuf-sec" value="${manufSec}" style="width:50px;" oninput="updateSimulatorCFTInline()">
                         <span class="projected" id="sim-manuf-score">--</span>
                     </div>
                     <div class="simulator-total">
@@ -3408,6 +3406,57 @@
             if (mobileHistory) {
                 mobileHistory.innerHTML = historyHTML;
             }
+        }
+
+        // Update Inline Simulator for PFT
+        function updateSimulatorPFT() {
+            const data = lastCalculatedData;
+            if (!data) return;
+
+            const upperReps = parseInt(document.getElementById('sim-upper-reps')?.value) || 0;
+            const plankMin = parseInt(document.getElementById('sim-plank-min')?.value) || 0;
+            const plankSec = parseInt(document.getElementById('sim-plank-sec')?.value) || 0;
+            const cardioMin = parseInt(document.getElementById('sim-cardio-min')?.value) || 0;
+            const cardioSec = parseInt(document.getElementById('sim-cardio-sec')?.value) || 0;
+
+            const upperScore = data.upperBodyType === 'pullups' ?
+                calculatePullupScore(data.gender, data.ageGroup, upperReps) :
+                calculatePushupScore(data.gender, data.ageGroup, upperReps);
+            const plankScore = calculatePlankScore(plankMin, plankSec);
+            const cardioScore = data.cardioType === 'run' ?
+                calculateRunScore(data.gender, data.ageGroup, cardioMin, cardioSec, data.isAltitude) :
+                calculateRowScore(data.gender, data.ageGroup, cardioMin, cardioSec);
+
+            const totalScore = upperScore + plankScore + cardioScore;
+
+            // Update all simulator displays (there might be both desktop and mobile versions)
+            document.querySelectorAll('#sim-upper-score').forEach(el => el.textContent = upperScore + ' pts');
+            document.querySelectorAll('#sim-plank-score').forEach(el => el.textContent = plankScore + ' pts');
+            document.querySelectorAll('#sim-cardio-score').forEach(el => el.textContent = cardioScore + ' pts');
+            document.querySelectorAll('#sim-total-score').forEach(el => el.textContent = totalScore + ' pts');
+        }
+
+        // Update Inline Simulator for CFT (new version for inline)
+        function updateSimulatorCFTInline() {
+            const data = lastCalculatedData;
+            if (!data) return;
+
+            const mtcMin = parseInt(document.getElementById('sim-mtc-min')?.value) || 0;
+            const mtcSec = parseInt(document.getElementById('sim-mtc-sec')?.value) || 0;
+            const ammoReps = parseInt(document.getElementById('sim-ammo-reps')?.value) || 0;
+            const manufMin = parseInt(document.getElementById('sim-manuf-min')?.value) || 0;
+            const manufSec = parseInt(document.getElementById('sim-manuf-sec')?.value) || 0;
+
+            const mtcScore = calculateMTCScore(data.gender, data.ageGroup, mtcMin, mtcSec);
+            const ammoScore = calculateALScore(data.gender, data.ageGroup, ammoReps);
+            const manufScore = calculateMANUFScore(data.gender, data.ageGroup, manufMin, manufSec);
+
+            const totalScore = mtcScore + ammoScore + manufScore;
+
+            document.querySelectorAll('#sim-mtc-score').forEach(el => el.textContent = mtcScore + ' pts');
+            document.querySelectorAll('#sim-ammo-score').forEach(el => el.textContent = ammoScore + ' pts');
+            document.querySelectorAll('#sim-manuf-score').forEach(el => el.textContent = manufScore + ' pts');
+            document.querySelectorAll('#sim-total-score').forEach(el => el.textContent = totalScore + ' pts');
         }
 
         // ===============================
