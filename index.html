@@ -3114,9 +3114,9 @@
             const manufMin = parseInt(document.getElementById('sim-manuf-min').value) || 0;
             const manufSec = parseInt(document.getElementById('sim-manuf-sec').value) || 0;
 
-            const mtcScore = calculateMTCScore(data.gender, mtcMin, mtcSec);
-            const ammoScore = calculateAmmoLiftScore(data.gender, ammoReps);
-            const manufScore = calculateMANUFScore(data.gender, manufMin, manufSec);
+            const mtcScore = calculateMTCScore(data.gender, data.ageGroup, mtcMin, mtcSec);
+            const ammoScore = calculateALScore(data.gender, data.ageGroup, ammoReps);
+            const manufScore = calculateMANUFScore(data.gender, data.ageGroup, manufMin, manufSec);
 
             const totalScore = mtcScore + ammoScore + manufScore;
             const classification = getClassification(totalScore);
@@ -3305,10 +3305,14 @@
 
         function generatePlankTableHTML() {
             let html = '<table class="scoring-table-mini"><thead><tr><th>Time</th><th>Points</th></tr></thead><tbody>';
-            const times = ['3:45', '3:30', '3:15', '3:00', '2:45', '2:30', '2:15', '2:00', '1:45', '1:30', '1:15', '1:03'];
-            const scores = [100, 99, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50];
-            for (let i = 0; i < times.length; i++) {
-                html += `<tr><td>${times[i]}</td><td>${scores[i]}</td></tr>`;
+            const sortedTimes = Object.keys(plankScores).sort((a, b) => {
+                const [aMin, aSec] = a.split(':').map(Number);
+                const [bMin, bSec] = b.split(':').map(Number);
+                return (bMin * 60 + bSec) - (aMin * 60 + aSec); // Sort descending
+            });
+
+            for (const time of sortedTimes) {
+                html += `<tr><td>${time}</td><td>${plankScores[time]}</td></tr>`;
             }
             html += '</tbody></table>';
             return html;
