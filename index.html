@@ -359,6 +359,14 @@
             font-weight: bold;
         }
 
+        .classification.cg-excellence {
+            color: #9b59b6;
+        }
+
+        .classification.body-comp-incentive {
+            color: #17a2b8;
+        }
+
         .classification.first-class {
             color: #28a745;
         }
@@ -643,6 +651,8 @@
             color: white;
         }
 
+        .history-item .classification-badge.cg-excellence { background: #9b59b6; }
+        .history-item .classification-badge.body-comp-incentive { background: #17a2b8; }
         .history-item .classification-badge.first-class { background: #28a745; }
         .history-item .classification-badge.second-class { background: #ffc107; color: #333; }
         .history-item .classification-badge.third-class { background: #fd7e14; }
@@ -1145,8 +1155,16 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td><strong>CG's Excellence</strong></td>
+                                    <td>285-300</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Body Comp Incentive</strong></td>
+                                    <td>250-284</td>
+                                </tr>
+                                <tr>
                                     <td><strong>1st Class</strong></td>
-                                    <td>235-300</td>
+                                    <td>235-249</td>
                                 </tr>
                                 <tr>
                                     <td><strong>2nd Class</strong></td>
@@ -1228,7 +1246,8 @@
                     <label for="goal-classification">Target Classification:</label>
                     <select id="goal-classification" onchange="calculateGoals()">
                         <option value="285">285+ (CG's Excellence)</option>
-                        <option value="235" selected>1st Class (235+)</option>
+                        <option value="250" selected>Body Comp Incentive (250+)</option>
+                        <option value="235">1st Class (235+)</option>
                         <option value="200">2nd Class (200+)</option>
                         <option value="150">3rd Class (150+)</option>
                     </select>
@@ -1394,8 +1413,16 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td><strong>CG's Excellence</strong></td>
+                                <td>285-300</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Body Comp Incentive</strong></td>
+                                <td>250-284</td>
+                            </tr>
+                            <tr>
                                 <td><strong>1st Class</strong></td>
-                                <td>235-300</td>
+                                <td>235-249</td>
                             </tr>
                             <tr>
                                 <td><strong>2nd Class</strong></td>
@@ -1795,6 +1822,8 @@
         }
 
         function getClassification(score) {
+            if (score >= 285) return { class: 'cg-excellence', name: "CG's Excellence" };
+            if (score >= 250) return { class: 'body-comp-incentive', name: 'Body Comp Incentive' };
             if (score >= 235) return { class: 'first-class', name: '1st Class' };
             if (score >= 200) return { class: 'second-class', name: '2nd Class' };
             if (score >= 150) return { class: 'third-class', name: '3rd Class' };
@@ -1961,6 +1990,8 @@
         // ===============================
         function createImprovementFeedback(totalScore, classification) {
             const thresholds = [
+                { name: "CG's Excellence", score: 285, class: 'cg-excellence' },
+                { name: 'Body Comp Incentive', score: 250, class: 'body-comp-incentive' },
                 { name: '1st Class', score: 235, class: 'first-class' },
                 { name: '2nd Class', score: 200, class: 'second-class' },
                 { name: '3rd Class', score: 150, class: 'third-class' }
@@ -1994,10 +2025,14 @@
             } else if (totalScore < 235) {
                 const toFirst = 235 - totalScore;
                 tip = `<div class="improvement-item"><span class="icon">💡</span><span>Just ${toFirst} points to reach 1st Class - you're close!</span></div>`;
+            } else if (totalScore < 250) {
+                const toBodyComp = 250 - totalScore;
+                tip = `<div class="improvement-item"><span class="icon">💡</span><span>Only ${toBodyComp} more points to earn Body Composition Incentives!</span></div>`;
             } else if (totalScore < 285) {
-                tip = '<div class="improvement-item"><span class="icon">💡</span><span>Excellent score! Push for 285+ for Commanding General recognition.</span></div>';
+                const toCG = 285 - totalScore;
+                tip = `<div class="improvement-item"><span class="icon">💡</span><span>Great score! Just ${toCG} more points for CG's Excellence!</span></div>`;
             } else {
-                tip = '<div class="improvement-item achieved"><span class="icon">🏆</span><span>Outstanding performance! You\'re among the top performers.</span></div>';
+                tip = '<div class="improvement-item achieved"><span class="icon">🏆</span><span>Outstanding performance! CG\'s Excellence achieved!</span></div>';
             }
 
             return `
@@ -2185,7 +2220,7 @@
             }
 
             const historyItems = history.map(entry => {
-                const classKey = entry.classification.toLowerCase().replace(' ', '-').replace('1st', 'first').replace('2nd', 'second').replace('3rd', 'third');
+                const classKey = entry.classification.toLowerCase().replace(/[']/g, '').replace(/\s+/g, '-').replace('1st', 'first').replace('2nd', 'second').replace('3rd', 'third').replace('cgs-excellence', 'cg-excellence');
                 return `
                     <div class="history-item">
                         <div>
